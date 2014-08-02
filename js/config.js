@@ -27,7 +27,7 @@
     var app = {
         title: 'scwReaderJS',
         name: 'scwReaderJS',
-        version: 0.01
+        version: 0.02
     };
 
     // Configuration par défaut de l'url du CSW
