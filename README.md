@@ -4,7 +4,8 @@ cswReaderJS
 Application javascript de lecture et recherche de métadonnées dans un flux CSW.
 Cette application constitue l'un des modules du projet mdViewer
 
-**Projet mdViewer**
+**Projet mdViewer:**
+
 Le projet "mdViewer" vise à proposer une solution simple de consultation de fiches de métadonnées issues de services web (CSW) ou de fichiers XML stockés en ligne (Iso 19139) en utilisant une logique client/serveur.
 Il n'a pas pour objectif de remplacer des solutions complètes tel que GéoSources ou GéoNetwork.
 
