@@ -140,7 +140,20 @@ $( document ).ready(function() {
     */
     
     function loadContent() {
-        var csw_url = urlConstruct(csw_list.csw[csw_config.csw_id], csw_config);
+        /*
+        if (csw_config.csw_url == '') {
+            var cswurl = csw_list.csw[csw_config.csw_id].url;
+        } else {
+            var cswurl = csw_config.csw_url;
+        }
+        var csw_url = urlConstruct(cswurl, csw_config);
+        */
+        if (param_csw) {
+            csw_config.csw_url = param_csw;
+            $('#txt_cswurl').val(param_csw);
+        }
+        var csw_url = urlConstruct(csw_config.csw_url, csw_config);
+        
         if (server_url) {
             var url_page = server_url;
             var data_page = {url: csw_url};
@@ -149,32 +162,39 @@ $( document ).ready(function() {
             data_page = '';
         }
         
+        if (mdReader.url) {
+            data['mdReader_url'] = mdReader.url;
+        }
+        data['csw_url'] = csw_config.csw_url;
+        data['csw_url_complete'] = csw_url;
+        
         $.ajax({
             type: "POST",
             url: url_page,
             data: data_page,
             dataType: "xml",
             success: function (xml) {
-        data = parseXML(xml);
-        if (data.md) {
-            $.Mustache.load('./templates/content.html')
-                .done(function () {
-            $('#content').empty().mustache('tpl_content', data);
-            if (data.view == 'listView') {
-                $('.switchView').toggleClass('uk-hidden');
-                $('.bt_onChangeView').toggleClass('uk-hidden');
-            }
-            on_changePage();
-            on_search();
-            on_changeCSW();
-            on_changeItemsOnPage();
-            on_changeView();
-                });
-        }
-        
+                data = parseXML(xml);
+                if (data.md) {
+                    $.Mustache.load('./templates/content.html')
+                        .done(function () {
+                            $('#content').empty().mustache('tpl_content', data);
+                            if (data.view == 'listView') {
+                                $('.switchView').toggleClass('uk-hidden');
+                                $('.bt_onChangeView').toggleClass('uk-hidden');
+                            }
+                            on_changePage();
+                            on_search();
+                            on_changeCSW();
+                            on_getCSW();
+                            on_changeItemsOnPage();
+                            on_changeView();
+                        });
+                }
+                
             },
             error: function (res) {
-        alert('Imossible de lire l\'url demandée.');
+                alert('Imossible de lire l\'url demandée.');
             }
         });
     }
@@ -192,8 +212,12 @@ $( document ).ready(function() {
             e.preventDefault();
             var txt_search = $('#txt_search').val();
             data.txt_search = txt_search;
-            search_type = 'anyText';
-            csw_config.constraint = search_type + "+LIKE+'*" + encodeURIComponent(txt_search) + "*'";
+            if (txt_search) {
+                search_type = 'anyText';
+                csw_config.constraint = search_type + "+LIKE+'*" + encodeURIComponent(txt_search) + "*'";
+            } else {
+                csw_config.constraint = '';
+            }
             // Réinitialisation des pages (se replacer sur la première page)
             data.currentPage = 1;
             csw_config.startposition = 1;
@@ -204,7 +228,19 @@ $( document ).ready(function() {
         $('.bt_onChangeCSW').on('click', function(e){
             e.preventDefault();
             var href = $(this).attr('href');
-            csw_config.csw_id = href;
+            //csw_config.csw_id = href;
+            //$('#txt_cswurl').val(csw_list.csw[csw_config.csw_id].url);
+            $('#txt_cswurl').val(href);
+            csw_config.csw_url = href;
+            loadContent();
+        });
+    }
+    function on_getCSW() {
+        $('.bt_onGetCSW').on('click', function(e){
+            e.preventDefault();
+            //var cswurl = $('#txt_cswurl').val();
+            //csw_config.csw_id = '';
+            csw_config.csw_url = $('#txt_cswurl').val();
             loadContent();
         });
     }
@@ -226,6 +262,6 @@ $( document ).ready(function() {
             $('.switchView').toggleClass('uk-hidden');
             $('.bt_onChangeView').toggleClass('uk-hidden');
         });
-    }  
+    }
 });
 
