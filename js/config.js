@@ -5,6 +5,7 @@
 
     // Liste des flux CSW disponibles
     var csw_list = {
+        //csw: '',
         csw: [ {
             id: 0,
             title: 'CSW CIGAL - Géocatalogue',
@@ -25,14 +26,20 @@
 
     // Configuration de l'application
     var app = {
-        title: 'scwReaderJS',
-        name: 'scwReaderJS',
-        version: 0.02
+        title: 'cswReaderJS',
+        name: 'cswReaderJS',
+        version: 0.04
     };
 
     // Configuration par défaut de l'url du CSW
+    var csw_url = '';
+    if (csw_list.csw) {
+        csw_url = csw_list.csw[0].url;
+    }
     var csw_config = {
-        csw_id: 0,
+        //csw_id: 0,
+        //csw_url: csw_list.csw[0].url,
+        csw_url: csw_url,
         elementsetname: 'full',
         maxrecords: 10,
         startposition: 1,
@@ -50,9 +57,9 @@
 
     // Lien vers le lecteur de fiche de métadonnées
     var mdReader = {
-        url: 'http://www.cigalsace.net/mdReaderJS/0.01',
-        csw: '',
-        mdID: ''
+        url: 'http://www.cigalsace.net/mdReaderJS/0.01/index.html',
+        //url: false,
+        id: ''
     };
 
     /* Ne rien modifier en dessous de cette ligne */    
@@ -61,9 +68,15 @@
         currentPage: 1,
         csw_list: csw_list,
         app: app,
+        csw_url: '',
         view: 'gridView'
     };
-
+    
+    //var main_url = window.location.search.substring(1);
+    var params = getParamsURL(window.location.search.substring(1));
+    var param_csw = params['csw'];
+    //console.log(param_csw);
+    
     /* A garder
     var csw_query_all = "?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecords&CONSTRAINTLANGUAGE=CQL_TEXT&PostEncoding=XML&resultType=results&outputSchema=http://www.isotc211.org/2005/gmd&typeNames=gmd:MD_Metadata&ELEMENTSETNAME=full&maxrecords=1000&startposition=1&CONSTRAINT_LANGUAGE_VERSION=1.0.0";
     */

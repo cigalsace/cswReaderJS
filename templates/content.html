@@ -1,14 +1,13 @@
 <script id="tpl_content" type="text/html">
 
     <div id="header">
-            <h1 class="uk-width-1-1">
-                <span class="uk-icon-globe"></span>
-                {{app.title}}
-                <span class="uk-h6 uk-align-right uk-margin"><small>{{app.name}} {{app.version}} - (c) Guillaume Ryckelynck / CIGAL 2014 </small></span>
-            </h1>
-        <!--<hr />-->
-    
-    <!--<div id="sidebar" class="uk-width-medium-1-4"></div>-->
+        <h1 class="uk-width-1-1">
+            <span class="uk-icon-globe"></span>
+            {{app.title}}
+            <span class="uk-h6"><small><a href="{{csw_url_complete}}" target="_blank">[{{csw_url}}]</a></small></span>
+            <span class="uk-h6 uk-align-right uk-margin"><small>{{app.name}} {{app.version}} - (c) Guillaume Ryckelynck / CIGAL 2014 </small></span>
+        </h1>
+
         <nav class="uk-navbar uk-margin-bottom">
             <div class="uk-navbar-content uk-margin-remove uk-width-small-1-1 uk-width-medium-2-3">
                 <form class="uk-form uk-margin-remove uk-display-inline-block uk-width-9-10">
@@ -30,12 +29,20 @@
                             <ul class="uk-nav uk-nav-navbar">
                                 {{#csw_list.csw}}
                                 <li>
-                                    <a href="{{id}}" class="bt_onChangeCSW">
+                                    <a href="{{url}}" class="bt_onChangeCSW">
                                         <strong>{{title}}</strong><br />
                                         {{description}}
                                     </a>
                                 </li>
                                 {{/csw_list.csw}}
+                                <li class="uk-margin-left uk-margin-small-top">
+                                    <form id="form_cswurl" class="uk-form">
+                                        <input id="txt_cswurl" type="text" placeholder="http://..." class="uk-width-9-10" value="{{csw_url}}" />
+                                        <button class="uk-button bt_onGetCSW" href="#" >
+                                            <i class="uk-icon-globe"></i>
+                                        </button>
+                                    </form>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -45,15 +52,18 @@
     </div>
     
     <div class="uk-width-1-1">
-        <!--<div id="" class="uk-panel uk-panel-box uk-width-4-5">-->
         <ul id="switcher-content" class="">
             <li class="switchView">
                 <div id="md_grid" class="uk-grid" data-uk-grid-margin data-uk-grid-match="{row: false}">
                     {{#md}}
                     <div style="" class="md_grid_item uk-margin-small-bottom">
-                        <a href="#" style="color:#444" data-uk-tooltip="{pos:'bottom'}"
+                        <a
+                        {{#mdReader_url}}
+                            href="{{mdReader_url}}?url={{csw_url}}&id={{MD_FileIdentifier}}" class="bt_onViewMd" target="_blank"
+                        {{/mdReader_url}}
+                        style="color:#444" data-uk-tooltip="{pos:'bottom'}"
                         title="
-                        <div>
+                        <div style='text-align:left;'>
                             <div><strong>Résumé:</strong> {{Data_Abstract}}</div>
                             <div>
                                 <strong>Mot-clés:</strong>
@@ -68,21 +78,9 @@
                         ">
                             <span style="font-size:1.1em;"><strong>{{Data_Title}}</strong></span>
                         </a>
-                            <div class="uk-thumbnail">
-                                <img width="200" src="{{Data_BrowseGraphics.Data_BrowseGraphic_Name}}" alt="" style="max-height:200px; max-width:200px;">
-                            </div>
-                            
-                            <!--
-                            <div class="keywords" style="height:2em; font-size:.9em;">
-                                {{#Data_Keywords}}
-                                    {{Data_Keyword}},
-                                {{/Data_Keywords}}
-                                {{#Data_TopicCategories}}
-                                    {{Data_TopicCategory}},
-                                {{/Data_TopicCategories}}
-                            </div>
-                            -->
-                        
+                        <div class="uk-thumbnail">
+                            <img width="200" src="{{Data_BrowseGraphics.Data_BrowseGraphic_Name}}" alt="" style="max-height:200px; max-width:200px;">
+                        </div>
                     </div>
                     {{/md}}
                 </div>
@@ -100,15 +98,16 @@
                             <div style="height:2em;">
                                 <p>
                                     {{#Data_Keywords}}
-                                        <a href="#">{{Data_Keyword}}</a>,
+                                        <!--<a href="#">{{Data_Keyword}}</a>,-->
+                                        {{Data_Keyword}},
                                     {{/Data_Keywords}}
                                     <!--<br />-->
                                     {{#Data_TopicCategories}}
-                                        <a href="#">{{Data_TopicCategory}}</a>,
+                                        <!--<a href="#">{{Data_TopicCategory}}</a>,-->
+                                        {{Data_TopicCategory}},
                                     {{/Data_TopicCategories}}
                                 </p>
-                        </div>
-                            <!--<a class="uk-button uk-button-primary" href="#">Button</a>-->
+                            </div>
                         </div>
                     </div>
                     <hr class="uk-grid-divider">
@@ -116,54 +115,6 @@
                 </div>
             </li>
         </ul>
-        
-        <!--
-        <nav class="uk-navbar">
-            <ul class=="uk-navbar-nav">
-                <li><a href="">test</a></li>
-                <!--
-                <li class="uk-parent" data-uk-dropdown="">
-                    <a href="">
-                        Parent 
-                        <i class="uk-icon-caret-down"></i>
-                    </a>
-                    <div class="uk-dropdown uk-dropdown-navbar" style="">
-                        <ul class="uk-nav uk-nav-navbar">
-                            <li>
-                                <a href="#"></a>
-                            </li>
-                            <li></li>
-                            <li class="uk-nav-header"></li>
-                            <li></li>
-                            <li></li>
-                            <li class="uk-nav-divider"></li>
-                            <li></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-                -->
-            <!--
-            <div class="uk-grid">
-                <div class="uk-navbar-content  uk-display-inline-block uk-width-1-6">
-                    Fiches par page:
-                    <select id="itemsPage">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="250">250</option>
-                    </select>
-                </div>
-                <ul class="uk-pagination uk-pagination-left uk-width-5-6 uk-margin-small" data-uk-pagination="{items:{{nb_records_matched}}, itemsOnPage:{{nb_records_returned}}}"></ul>
-            </div>
-        </nav>
-            -->
-
-        <!--
-        <div id="pagination">
-        </div>
-        -->
     </div>
     <div id="footer" class="">
         <nav id="nav_footer" class="uk-navbar uk-margin-small-top uk-width-1-1">
@@ -205,8 +156,6 @@
                 <div class="uk-align-right uk-navbar-content uk-margin-remove">Présentation de {{nb_records_returned}} résultats sur {{nb_records_matched}}.</div>
             </div> 
         </nav>
-            
-    
     </div>
-            
+
 </script>
