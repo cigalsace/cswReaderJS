@@ -6,6 +6,9 @@ TODO:
 
 # Version. 0.04:
 
+31/10/14:
+    - Adapatation code pour gestion métadonnées de service (MDS)
+
 30/09/14:
     - Ajout du csw comme paramètre dans l'url. 
         Dans ce cas, le paramètre se surimpose au choix d'une url dans la liste proposée. Il est alors conseillé de désactiver la liste en indiquant dans config.js "csw_list = { csw: '' };".

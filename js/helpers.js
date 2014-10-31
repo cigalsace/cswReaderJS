@@ -1,6 +1,4 @@
-//$(document).ready(function() {
 
-// var query = window.location.search.substring(1);
 function getParamsURL(url) {
     var variables = url.split('&');
     var params = {};
@@ -22,57 +20,11 @@ function urlConstruct(csw_url, config) {
 	} else {
 		var url = csw_url+'?';
 	}
-	//console.log('? :'+csw_url.indexOf('?'));
-    /*
-    url += 'service=' + config['service'] + '&';
-    url += 'version=' + config['version'] + '&';
-    url += 'request=' + config['request'] + '&';
-    url += 'elementsetname=' + config['elementsetname'] + '&';
-    url += 'startposition=' + config['startposition'] + '&';
-    url += 'maxrecords=' + config['maxrecords'] + '&';
-    url += 'postencoding=' + config['postencoding'] + '&';
-    url += 'resulttype=' + config['resulttype'] + '&';
-    url += 'outputschema=' + config['outputschema'] + '&';
-    url += 'typenames=' + config['typenames'] + '&';
-    url += 'constraintlanguage=' + config['constraintlanguage'] + '&';
-    url += 'constraint_language_version=' + config['constraint_language_version'] + '&';
-    if (config['constraint']) {
-        url += 'constraint=' + config['constraint'] + '&';
-    }
-    */
     for (item in config) {
         if (item != 'csw_id' && item != 'csw_url' && config[item] != '') {
             url += item + '=' + config[item] + '&';
         }
     }
-    //console.log(url.replace(/(\s+)?.$/, ''));
     console.log(url);
     return url;
 }
-
-//http://www.cigalsace.org/geonetwork-private/srv/fre/csw-geocatalogue?elementsetname=full&maxrecords=10&startposition=1&version=2.0.2&service=CSW&request=GetRecords&constraintlanguage=CQL_TEXT&postencoding=XML&resulttype=results&outputschema=http://www.isotc211.org/2005/gmd&typenames=gmd:MD_Metadata&constraint_language_version=1.0.0&"
-
-/* A garder
-function min_max(array, type='min') {
-    m = false;
-    for (a in array) {
-        if (m === false) { m = array[a]; }
-        if (type=='max') {
-            if (array[a] > m) { m = array[a]; }
-        } else {
-            if (array[a] < m) { m = array[a]; }
-        }
-    }
-    return m;
-}
-
-function compare(a,b) {
-    if (a.nb < b.nb)
-        return 1;
-    if (a.nb > b.nb)
-        return -1;
-    return 0;
-}
-*/
-
-//});
