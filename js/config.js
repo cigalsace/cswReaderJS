@@ -37,6 +37,11 @@ var csw_list = {
         title: 'CSW Géocatalogue national',
         description: 'Flux CSW du Géocatalogue national.',
         url: 'http://www.geocatalogue.fr/api-public/servicesRest'
+    }, {
+        id: 2,
+        title: 'Liste de fichiers XML',
+        description: 'Flux CSW produit avec "xml2csw" à partir d\'une liste de fichier XML.',
+        url: 'http://www.cigalsace.net/xml2csw/?xml_dir=xml'
     } ]
 };
 
