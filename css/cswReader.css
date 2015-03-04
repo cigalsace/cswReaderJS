@@ -1,15 +1,21 @@
 html {
-    font-size: 12px;
+    /*font-size: 12px;*/
 }
 body {
     margin: 10px;
+}
+#content {
+    position:absolute;
+    top:80px;
+    padding-bottom: 70px;
+    background:#fff;
 }
 #header {
     position:fixed;
     left:0px;
     top:0px;
     margin:0;
-    padding:1px;
+    padding:0px;
     width:100%;
     background:#fff;
 }
@@ -22,18 +28,18 @@ body {
     margin:0;
     padding:1px;
 }
-#content {
-    position:absolute;
-    top:120px;
-    padding-bottom: 70px;
-    background:#fff;
+#page {
+    /*min-width:100%;*/
+}
+ul#switcher-content {
+    list-style-type: none;
 }
 #md_list .uk-grid {
     margin: 0 0 0 15px;
 }
 .md_grid_item {
     width: 220px;
-    min-height: 300px;
+    /*min-height: 300px;*/
 }
 .md_grid_item a:hover, .md_grid_item a:focus {
     text-decoration: none;
