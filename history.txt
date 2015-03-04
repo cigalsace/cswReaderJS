@@ -1,11 +1,48 @@
 # cswReaderJS
 
 TODO:
-    - Etudier problème de pagination avec Uikit v2.10.0
+    x Certains flux comme le Géocatalogue national limite le nombre de fiches retournées. Si 1000 fiches sont demandées, seules, 50 sont retournées...
+    - Ajouter bouton pour effacer l'input de recherche et recharger la page.
 
 
-# Version. 0.04:
+# Version dev: future version 0.10
 
+
+
+# Version 0.09
+28/02/15:
+    - Réorganisation et nettoyage du code
+    - Intégration du code mdReaderJS dans cswreaderJS et suppression du lien vers mdReaderJS
+    - Ouverture de la fiche de consultation dans une boîte de dialogue et non plu dans une page internet séparée
+    - Reprise et simplification du template de consultation de la fiche des métadonnées
+
+# Version 0.07
+17/01/15:
+    - Suppression de la pagination et utilisation d'un "infinite scroll" déclenché par un bouton "Voir plus de fiches". Adapatation de la structure et du fonctionnement de l'application en conséquence pour permettre le téléchargement du template des pages (list_page.html et grid_page.html) indépendamment du template content.html.
+    - Migration vers Uikit 2.16.2.
+    - Nettoyage du code.
+
+# Version 0.06
+14/01/15:
+    - Possibilité d'ajouter l'URL du flux comme paramètre de la page de la forme:
+        - "http://www.cigalsace.net/cswReaderJS/dev/?http://www.cigalsace.org/geonetwork-private/srv/fre/csw-cg67" pour un flux CSW
+        - "http://www.cigalsace.net/cswReaderJS/dev/?csw=http://www.cigalsace.net/xml2csw/?xml_dir=xml" pour l'utilisation de xml2csw.php
+
+13/01/15:
+    - La recherche ne tient plus compte de la casse (majuscules/minuscules)
+    - L'opérateur "+" peut être utilisé comme notation du "et", ainsi:
+        - "Première guerre mondiale" = rechercher les fiches contenant le mot "Première guerre mondiale"
+        - "munster" = rechercher les fiches contenant le mot "munster"
+        - "munster + 1916" = rechercher les fiches contenant le mot « munster » et « 1916 »
+
+A noter, la recherche se fait en texte brut sur la fiche sans notion de pertinence. Ainsi, une recherche sur "20000" sortira toutes les cartes car "20000" est contenu dans le code SIREN du PAIR qui est inclu  dans l'identifiant de chaque fiche...
+
+# Version 0.05:
+05/11/14:
+    - Adaptation de l'interface pour les applis mobiles.
+    - Correction du terme "environment" dans liste de codes topicCategory (config.js).
+    
+# Version 0.04:
 31/10/14:
     - Adapatation code pour gestion métadonnées de service (MDS)
 

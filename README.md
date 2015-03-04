@@ -3,7 +3,9 @@
 Application javascript de lecture et recherche de métadonnées dans un flux CSW.
 Cette application constitue l'un des modules du projet mdViewer.
 
-*La branche "master" est la branche de développement.*
+**La branche "0.09" est la branche stable.**
+
+*La branche "0.10" est la branche de développement.*
 
 ## Projet mdViewer
 
@@ -17,6 +19,10 @@ L'application se compose de 3 modules indépendants:
 * [xml2csw][5] : permet de simuler un serveur csw minimaliste à partir d'une liste de fichiers XML pour pouvoir les consulter via cswReaderJS et mdReaderJS.
 
 Cette application s'inspire des travaux réalisé pour le sviewer développé par [Géobretagne][6].
+
+L'affichage a été optimisé pour permettre sont utilisation sur les terminaux mobiles.
+
+**Le présent dépôts est celui du module mdReaderJS.**
 
 ## Technologie:
 
@@ -49,7 +55,13 @@ L'application se veut simple et intuitive...
 
 ## Démonstration:
 
-http://www.cigalsace.net/cswReaderJS/0.04/
+http://www.cigalsace.net/cswReaderJS/0.09/
+
+## Hitorique:
+
+Cf. fichier history.txt.
+
+A noter que la version 0.09 est autonome et n'utilise plus mdReaderJS la consultation de la fiche se faisant directement dans une boîte de dialogue et non une page séparée.
 
 ---
 [1]: http://www.geosource.fr/ "GéoSources"

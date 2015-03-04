@@ -3,17 +3,16 @@
 var app = {
     title: 'cswReaderJS',   // Titre de l'application
     name: 'cswReaderJS',    // Nom de l'application
-    version: 0.04           // Version de l'application
+    version: '0.09',           // Version de l'application
+    template: 'modal.html'
 };
 
 // Lien vers le serveur de récupération des flux (pb de cross domain)
 var server_url = './server/index.php'; // "false" pour un accès directe à la page sans passer par le script serveur si l'application cswReader est hébergée sur le serveur du flux CSW.
 
 // Lien vers le lecteur de fiche de métadonnées
-var mdReader = {
-    url: 'http://www.cigalsace.net/mdReaderJS/0.01/index.html', // "false" pour désactiver le lien sur le titre des données vers le lecteur de fiche
-    id: ''
-};
+//var mdReader_url = 'http://www.cigalsace.net/mdReaderJS/0.03/index.html'; // "false" pour désactiver le lien sur le titre des données vers le lecteur de fiche
+//var mdReader_url = './mdReaderJS/0.03/index.html';
 
 // Liste des flux CSW disponibles
 // Indiquer "csw: ''," pour désactiver la liste des lien et laisser uniquement le champs texte de saisie des URL
@@ -38,7 +37,12 @@ var csw_list = {
         description: 'Flux CSW du Géocatalogue national.',
         url: 'http://www.geocatalogue.fr/api-public/servicesRest'
     }, {
-        id: 2,
+        id: 3,
+        title: 'Fiches du CG67',
+        description: 'Flux CSW du Conseil Général du Bas-Rhin.',
+        url: 'http://www.cigalsace.org/geonetwork-private/srv/fre/csw-cg67'
+    }, {
+        id: 4,
         title: 'Liste de fichiers XML',
         description: 'Flux CSW produit avec "xml2csw" à partir d\'une liste de fichier XML.',
         url: 'http://www.cigalsace.net/xml2csw/?xml_dir=xml'
@@ -47,7 +51,10 @@ var csw_list = {
 
 // Initialisation de la variable gloable envoyée au template pour construction de la page
 var data = {
+    lang: 'fr',
     currentPage: 1,
+    maxrecords: 20,
+    nb_records_visible: 0,
     csw_list: csw_list,
     app: app,
     csw_url: '',
@@ -62,8 +69,8 @@ if (csw_list.csw) {
 var csw_config = {
     csw_url: csw_url,
     elementsetname: 'full',
-    maxrecords: 10,
-    startposition: 1,
+    maxrecords: data.maxrecords,
+    //startposition: 1,
     version: '2.0.2',
     service: 'CSW',
     request: 'GetRecords',
@@ -79,7 +86,56 @@ var csw_config = {
 //var main_url = window.location.search.substring(1);
 var params = getParamsURL(window.location.search.substring(1));
 var param_csw = params['csw'];
+if (param_csw) {
+    csw_config.csw_url = param_csw;
+    $('#txt_cswurl').val(param_csw);
+}
+var param_tpl = params['tpl'];
+if (param_tpl) {
+    app.template = param_tpl;
+}
 
+// URL pour getRecordById
+// Faire function et mettre dans helpers.js
+/*
+var query = window.location.search.substring(1);
+if (query.indexOf('?') != -1) {
+    var variables = query.split('?');
+    var url_vars = { url: variables[0].substring(4) };
+    var params = variables[1].split('&');
+} else {
+	var params = query.split('&');
+	var url_vars = {};
+}
+for (i in params) {
+    v = params[i].split('=');
+    url_vars[v[0]] = decodeURIComponent(v[1]);
+}
+// Ecraser la valeur du template avec le paramètre d'URL 'tpl'
+if (url_vars['tpl']) {
+    app.template = url_vars['tpl'];
+}
+*/
+
+// Configuration par défaut de l'url du CSW
+var md_config = {
+    //url: url_vars.url,
+    url: '',
+    request: 'GetRecordById',
+    service: 'CSW',
+    version: '2.0.2',
+    elementsetname: 'full',
+    postencoding: 'XML',
+    resulttype: 'results',
+    outputschema: 'http://www.isotc211.org/2005/gmd',
+    typenames: 'gmd:MD_Metadata',
+    //id: url_vars.id,
+    id: '',
+	//xml_dir: url_vars.xml_dir
+	xml_dir: ''
+};
+
+/*
 var xpaths = {
     // Results
     stats: 'csw\\:SearchResults, SearchResults',
@@ -107,6 +163,12 @@ var xpaths = {
     //Data_TopicCategories: 'gmd\\:MD_Metadata>gmd\\:identificationInfo>gmd\\:MD_DataIdentification>gmd\\:topicCategory, MD_Metadata>identificationInfo>MD_DataIdentification>topicCategory',
     Data_TopicCategories: 'gmd\\:topicCategory, topicCategory',
     Data_TopicCategory: 'gmd\\:MD_TopicCategoryCode, MD_TopicCategoryCode',
+    // Linkages
+    Data_Linkages: 'gmd\\:MD_Metadata>gmd\\:distributionInfo>gmd\\:MD_Distribution>gmd\\:transferOptions>gmd\\:MD_DigitalTransferOptions>gmd\\:onLine>gmd\\:CI_OnlineResource, MD_Metadata>distributionInfo>MD_Distribution>transferOptions>MD_DigitalTransferOptions>onLine>CI_OnlineResource',
+    Data_LinkageName: 'gmd\\:name>gco\\:CharacterString, name>CharacterString',
+    Data_LinkageDescription: 'gmd\\:description>gco\\:CharacterString, description>CharacterString',
+    Data_LinkageURL: 'gmd\\:linkage>gmd\\:URL, linkage>URL',
+    Data_LinkageProtocol: 'gmd\\:protocol>gco\\:CharacterString, protocol>CharacterString',
 };
 
 // Liste des valeurs des TopicCategories
@@ -117,7 +179,7 @@ var MD_TopicCategoryCode = {
     climatologyMeteorologyAtmosphere: "Climatologie, météorologie", 
     economy: "Economie", 
     elevation: "Topographie", 
-    environnement: "Ressources et gestion de l’environnement", 
+    environment: "Ressources et gestion de l’environnement", 
     geoscientificInformation: "Géosciences", 
     health: "Santé", 
     imageryBaseMapsEarthCover: "Carte de référence de la couverture terrestre", 
@@ -131,4 +193,11 @@ var MD_TopicCategoryCode = {
     transportation: "Infrastructures de transport", 
     utilitiesCommunication: "Réseaux de télécommunication, d’énergie"
 };
+
+// Liste des protocoles
+var MD_LinkageProtocolCode = {
+    'OGC:WMS' : 'WMS',
+    'OGC:WFS' : 'WFS'
+}
+*/
 
