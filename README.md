@@ -5,7 +5,7 @@ Cette application constitue l'un des modules du projet mdViewer.
 
 **La branche "0.09" est la branche stable.**
 
-*La branche "0.10" est la branche de développement.*
+*La branche "master" est la branche de développement.*
 
 ## Projet mdViewer
 
