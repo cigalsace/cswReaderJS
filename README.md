@@ -73,4 +73,3 @@ A noter que la version 0.09 est autonome et n'utilise plus mdReaderJS la consult
 [7]: http://jquery.com/
 [8]: http://mustache.github.io/
 [9]: http://getuikit.com/
-  
