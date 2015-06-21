@@ -2,7 +2,7 @@
 function getParamsURL(url) {
     var variables = url.split('&');
     var params = {};
-    for (i in variables) {
+    for (var i in variables) {
         // v = variables[i].split('=');
         v = variables[i].split(/=(.+)?/);    // Split only first "=" char
         params[v[0]] = decodeURIComponent(v[1]);
@@ -22,7 +22,7 @@ function csw_urlConstruct(csw_config) {
 	} else {
 		var url = csw_url+'?';
 	}
-    for (item in csw_config) {
+    for (var item in csw_config) {
         if (item != 'csw_id' && item != 'csw_url' && csw_config[item] != '') {
             url += item + '=' + csw_config[item] + '&';
         }
@@ -42,7 +42,7 @@ function md_urlConstruct(md_config) {
 	} else {
 		var url = md_url+'?';
 	}
-    for (item in md_config) {
+    for (var item in md_config) {
         if (item != 'url' && md_config[item] != '') {
             url += item + '=' + md_config[item] + '&';
         }

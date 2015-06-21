@@ -1,5 +1,4 @@
 
-
     // Fonction pour parser fichier XML retourné par serveur CSW
     function parseCSW(xml) {
         data.itemsOnPage = csw_config.maxrecords;
@@ -14,9 +13,16 @@
             // MD fileIdentifier
             var MD_FileIdentifier = $(this).find(xpaths.MD_FileIdentifier).text();
             
+            // MD fileName
+            var MD_FileName = $(this).find(xpaths.MD_FileName).text();
+            if (MD_FileName == '') {
+                MD_FileName = MD_FileIdentifier;
+            }
+            //console.log(MD_FileName);
+            
             // MD URL
             md_config.url = csw_config.csw_url;
-            md_config.id = MD_FileIdentifier;
+            md_config.id = MD_FileName;
             var MD_URL = md_urlConstruct(md_config);
         
             // Data title
@@ -40,6 +46,7 @@
             
             md = {
                 MD_FileIdentifier: MD_FileIdentifier,
+                MD_FileName: MD_FileName,
                 Data_Title: short_Data_Title,
                 Data_Abstract: short_Data_Abstract,
                 Data_BrowseGraphics: csw_getFirstBrowsegraphics($(this)),

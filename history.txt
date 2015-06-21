@@ -1,22 +1,16 @@
 # cswReaderJS
 
 TODO:
+    x Etudier problème de pagination avec Uikit v2.11.0 (envisager suppression de la pagination... envisager affichage progressif des résultats)
+    x Problème de gestion du template responsive (uk-width-small-*-* et uk-width-medium-*-* sur un même élément ne semble pas fonctionner correctement...)
     x Certains flux comme le Géocatalogue national limite le nombre de fiches retournées. Si 1000 fiches sont demandées, seules, 50 sont retournées...
+    x Etudier affichage progressif des résultats par appel ajax si plus de 20 fiches...
+    x Reprendre mise en forme
+    x Migrer à uikit 2.16.2 en prévoyant de recharger les addons, notamment pagination à chaque appel ajax.
     - Ajouter bouton pour effacer l'input de recherche et recharger la page.
 
 
-# Version dev: future version 0.10
-
-
-
-# Version 0.09
-28/02/15:
-    - Réorganisation et nettoyage du code
-    - Intégration du code mdReaderJS dans cswreaderJS et suppression du lien vers mdReaderJS
-    - Ouverture de la fiche de consultation dans une boîte de dialogue et non plu dans une page internet séparée
-    - Reprise et simplification du template de consultation de la fiche des métadonnées
-
-# Version 0.07
+# Version dev: future version 0.07
 17/01/15:
     - Suppression de la pagination et utilisation d'un "infinite scroll" déclenché par un bouton "Voir plus de fiches". Adapatation de la structure et du fonctionnement de l'application en conséquence pour permettre le téléchargement du template des pages (list_page.html et grid_page.html) indépendamment du template content.html.
     - Migration vers Uikit 2.16.2.

@@ -3,7 +3,7 @@
 var app = {
     title: 'cswReaderJS',   // Titre de l'application
     name: 'cswReaderJS',    // Nom de l'application
-    version: '0.09',           // Version de l'application
+    version: '0.10',           // Version de l'application
     template: 'modal.html'
 };
 
@@ -25,22 +25,22 @@ var csw_list = {
         id: 0,
         title: 'CSW CIGAL - Géocatalogue',
         description: 'Flux CSW du serveur CIGAL contenant les fiches pour le Géocatalogue national.',
-        url: 'http://www.cigalsace.org/geonetwork-private/srv/fre/csw-geocatalogue'
+        url: 'https://www.cigalsace.org/geonetwork/srv/fre/csw-geocatalogue'
     }, {
         id: 1,
         title: 'CSW CIGAL - Général',
         description: 'Flux CSW du serveur CIGAL contenant l\'ensemble des fiches de métadonnées.',
-        url: 'http://www.cigalsace.org/geonetwork-private/srv/fre/csw'
+        url: 'https://www.cigalsace.org/geonetwork/srv/fre/csw'
     }, {
         id: 2,
         title: 'CSW Géocatalogue national',
         description: 'Flux CSW du Géocatalogue national.',
-        url: 'http://www.geocatalogue.fr/api-public/servicesRest'
+        url: 'https://www.geocatalogue.fr/api-public/servicesRest'
     }, {
         id: 3,
         title: 'Fiches du CG67',
         description: 'Flux CSW du Conseil Général du Bas-Rhin.',
-        url: 'http://www.cigalsace.org/geonetwork-private/srv/fre/csw-cg67'
+        url: 'https://www.cigalsace.org/geonetwork/srv/fre/csw-cg67'
     }, {
         id: 4,
         title: 'Liste de fichiers XML',

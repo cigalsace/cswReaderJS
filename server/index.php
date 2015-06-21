@@ -29,6 +29,4 @@ if ($url) {
 } else {
     echo false;
 }
-
-
 ?>
