@@ -25,8 +25,8 @@ L'affichage a été optimisé pour permettre sont utilisation sur les terminaux 
 Le module cswReaderJS est développé principalement via du JavaScript, du HTML, du CSS 3. Il s'apuie notamment sur les bibliothèques suivantes:
 
 * [JQuery][7] pour l'interaction javacript
-* [Mustache][8] et Mustache.js comme système de template pour la mise en forme des pages HTML
-* [Uikit][9] pour la présentation des pages et le rendu
+* [Angular][8] comme système de template
+* [Twitter bootstrap][9] pour la présentation des pages et le rendu
 
 Un script PHP est utilisé pour appeler les pages distantes et permettre de réaliser des requêtes AJAX "cross-domain".
 Il peut être facilement remplacé par un script dans un autre langage comme Python, Java ou autre (développement à prévoir).
@@ -51,7 +51,7 @@ L'application se veut simple et intuitive...
 
 ## Démonstration:
 
-http://www.cigalsace.net/cswReaderJS/0.04/
+http://cigalsace.net/cswReaderJS/0.12/
 
 ---
 [1]: http://www.geosource.fr/ "GéoSources"
@@ -61,6 +61,6 @@ http://www.cigalsace.net/cswReaderJS/0.04/
 [5]: https://github.com/cigalsace/xml2csw
 [6]: http://geobretagne.fr/
 [7]: http://jquery.com/
-[8]: http://mustache.github.io/
-[9]: http://getuikit.com/
+[8]: https://angularjs.org/
+[9]: http://getbootstrap.com/
   
