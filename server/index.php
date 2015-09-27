@@ -4,8 +4,8 @@ $username = '';
 $password = '';
 
 $url = '';
-if (isset($_POST['url'])) {
-    $url = $_POST['url'];
+if (isset($_GET['url'])) {
+    $url = $_GET['url'];
 }
 /*
 // Create a stream

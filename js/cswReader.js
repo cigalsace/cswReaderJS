@@ -1,39 +1,59 @@
 
     // Fonction pour parser fichier XML retourné par serveur CSW
     function parseCSW(xml) {
-        data.itemsOnPage = csw_config.maxrecords;
+        var data = {};
+        //data.itemsOnPage = csw_config.maxrecords;
         data.nb_records_matched = $(xml).find(xpaths.stats).attr('numberOfRecordsMatched');
         data.nb_records_returned = $(xml).find(xpaths.stats).attr('numberOfRecordsReturned');
+        //console.log(data.nb_records_returned);
         data.next_record = $(xml).find(xpaths.stats).attr('nextRecord');
         data.element_set = $(xml).find(xpaths.stats).attr('elementSet');
-        data.nb_records_visible += parseInt(data.nb_records_returned);
+        data.nb_records_visible = parseInt(data.next_record) - 1;
+        if (data.nb_records_visible < 0) {
+            data.nb_records_visible = data.nb_records_returned;
+        }
+        //console.log(data.nb_records_returned);
         
         var mds = [];
         $(xml).find(xpaths.Root).each(function() {
+            var MD_HierarchyLevel = $(this).find(xpaths.MD_HierarchyLevel).attr('codeListValue');
+            //console.log(MD_HierarchyLevel);
+            if (MD_HierarchyLevel == 'service') {
+                var Data_Title = $(this).find(xpaths.Service_Title).text();
+                var Data_Abstract = $(this).find(xpaths.Service_Abstract).text();
+            } else {
+                var Data_Title = $(this).find(xpaths.Data_Title).text();
+                var Data_Abstract = $(this).find(xpaths.Data_Abstract).text();
+            }
+          
             // MD fileIdentifier
             var MD_FileIdentifier = $(this).find(xpaths.MD_FileIdentifier).text();
+            //console.log(MD_FileIdentifier);
             
             // MD fileName
+            /*
             var MD_FileName = $(this).find(xpaths.MD_FileName).text();
             if (MD_FileName == '') {
                 MD_FileName = MD_FileIdentifier;
             }
             //console.log(MD_FileName);
+            */
             
             // MD URL
-            md_config.url = csw_config.csw_url;
-            md_config.id = MD_FileName;
+            md_config.url = csw_config.url;
+            //md_config.id = MD_FileName;
+            md_config.id = MD_FileIdentifier;
             var MD_URL = md_urlConstruct(md_config);
         
             // Data title
-            var Data_Title = $(this).find(xpaths.Data_Title).text();
-            var truncatevalue = 87;
+            //var Data_Title = $(this).find(xpaths.Data_Title).text();
+            var truncatevalue = 60;
             var short_Data_Title = Data_Title.substr(0,truncatevalue);
             if (Data_Title.length > short_Data_Title.length) {
                 short_Data_Title += "...";
             }
             // Data abstract
-            var Data_Abstract = $(this).find(xpaths.Data_Abstract).text();
+            //var Data_Abstract = $(this).find(xpaths.Data_Abstract).text();
             var truncatevalue = 397;
             var short_Data_Abstract = Data_Abstract.substr(0,truncatevalue);
             if (Data_Abstract.length > short_Data_Abstract.length) {
@@ -46,12 +66,16 @@
             
             md = {
                 MD_FileIdentifier: MD_FileIdentifier,
-                MD_FileName: MD_FileName,
-                Data_Title: short_Data_Title,
-                Data_Abstract: short_Data_Abstract,
+                //MD_FileName: MD_FileName,
+                Data_Title: Data_Title,
+                Data_Abstract: Data_Abstract,
+                Data_shortTitle: short_Data_Title,
+                Data_shortAbstract: short_Data_Abstract,
                 Data_BrowseGraphics: csw_getFirstBrowsegraphics($(this)),
                 Data_Keywords: Keywords['keywords'],
+                Data_listKeywords: Keywords['keywords'].join(', '),
                 Data_TopicCategories: csw_getTopicCategories($(this)),
+                Data_listTopicCategories: csw_getTopicCategories($(this)).join(', '),
                 Data_WMS: LinkageProtocols['wms'],
                 Data_WFS: LinkageProtocols['wfs'],
                 Data_OD: Keywords['opendata'],
@@ -76,10 +100,8 @@
     function csw_getKeywords(xml) {
         var d = {keywords: [], opendata: false};
         $(xml).find(xpaths.Data_Keywords).each(function() {
-            kw = {
-                Data_Keyword: $(this).find(xpaths.Data_Keyword).text()
-            }
-            if (kw.Data_Keyword.toLowerCase() == 'données ouvertes'.toLowerCase()) {
+            kw = $(this).find(xpaths.Data_Keyword).text();
+            if (kw.toLowerCase() == 'données ouvertes'.toLowerCase()) {
                 d.opendata = true;
             }
             d.keywords.push(kw);
@@ -89,9 +111,7 @@
     function csw_getTopicCategories(xml) {
         var d = [];
         $(xml).find(xpaths.Data_TopicCategories).each(function() {
-            tc = {
-                Data_TopicCategory: MD_TopicCategoryCode[$(this).find(xpaths.Data_TopicCategory).text()]
-            }
+            tc = MD_TopicCategoryCode[$(this).find(xpaths.Data_TopicCategory).text()];
             d.push(tc);
         });
         return d;

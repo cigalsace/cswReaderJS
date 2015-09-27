@@ -1,33 +1,151 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" ng-app="cswReaderApp">
     <head>
-		<meta charset="utf-8" />
+        <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="noindex,nofollow" />
         <title>cswReader</title>
         <!--<link rel="stylesheet" href="./css/uikit.min.css" />-->
-        <link rel="stylesheet" href="./css/uikit.almost-flat.min.css" />
-        <link rel="stylesheet" href="./css/components/tooltip.almost-flat.min.css" />
+        <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css" />
+        <!--<link rel="stylesheet" href="./css/components/tooltip.almost-flat.min.css" />-->
         <link rel="stylesheet" href="./css/cswReader.css" />
         <link rel="stylesheet" href="./css/mdReader.css" />
     </head>
-    <body>
-        <div id="content" class="uk-grid uk-margin"></div>
-        <script src="./js/lib/jquery-2.1.4.min.js"></script>
-        <script src="./js/lib/mustache.js"></script>
-        <script src="./js/lib/jquery.mustache.js"></script>
-        <script src="./js/lib/uikit.min.js"></script>
-        <script src="./js/lib/components/tooltip.min.js"></script>
+    <body ng-controller="cswReaderCtrl">
+        <nav id="header" class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+                    <a class="navbar-brand" href="#">
+                        <span class="glyphicon glyphicon-globe"></span> 
+                        {{app.title}}
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-menu">
+					<form class="navbar-form navbar-left" role="search">
+                        <div class="form-group has-feedback">
+                            <div class="input-group input-group-sm" style="display:table;">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li ng-repeat="(constraint_type_key, constraint_type_label) in constraint_type_search_list" ng-click="reloadPage(csw_config.url, constraint_type_key)">
+                                            <!--<label>
+                                                <input type="checkbox" value="">
+                                                {{constraint_type_label}}
+                                            </label>-->
+                                            <a href="#">
+                                                <span class="glyphicon glyphicon-check" aria-hidden="true" ng-if="csw_config.constraint_search_type == constraint_type_key"></span> 
+                                                <span class="glyphicon glyphicon-unchecked" aria-hidden="true" ng-if="csw_config.constraint_search_type != constraint_type_key"></span> 
+                                                {{constraint_type_label}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+                                <input type="text" class="form-control" id="#navbar-search" placeholder="Search" ng-model="csw_config.constraint">
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default hidden" ng-click="reloadPage()">
+                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="clearSearch()">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="navbar-text" ng-show="csw_config.constraint_search_type != ''"><small><em> (dans {{constraint_type_search_list[csw_config.constraint_search_type]}})</em></small></div>
+					<ul class="nav navbar-nav navbar-right">
+                        <li class="" tooltip="Aide" tooltip-trigger="mouseenter" tooltip-placement="bottom">
+                            <a href="#" role="button" class="glyphicon glyphicon-info-sign" ng-click="modalDoc('doc/html/help.html')"><span class="visible-xs-inline"> Help</span></a>
+                        </li>
+                        
+                        <li class="" tooltip="Permuter entre les vues 'grille' et 'liste'" tooltip-trigger="mouseenter" tooltip-placement="bottom">
+                            <a href="#" role="button" class="glyphicon glyphicon-th" ng-click="template_url = 'partials/tpl-grid.html'" ng-show="template_url != 'partials/tpl-grid.html'"><span class="visible-xs-inline"> Grid view</span></a>
+                            <a href="#" role="button" class="glyphicon glyphicon-th-list" ng-click="template_url = 'partials/tpl-list.html'" ng-show="template_url != 'partials/tpl-list.html'"><span class="visible-xs-inline"> List view</span></a>
+                        </li>
+                        <li dropdown is-open="status.isopen" tooltip="Changer de catalogue" tooltip-trigger="mouseenter" tooltip-placement="bottom" ng-click="$event.stopPropagation()">
+                            <a href="" id="simple-dropdown" dropdown-toggle class="glyphicon glyphicon-globe"><span class="visible-xs-inline"> Nodes list</span></a>
+                            <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+                                <li ng-repeat="csw in csw_list">
+                                    <a href="" ng-click="reloadPage(csw_url = csw.url)">
+                                        <strong>{{csw.title}}</strong><br />
+                                        <span class="uk-hidden-small">{{csw.description}}</span>
+                                    </a>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li class="">
+                                    <form id="form_cswurl" class="navbar-form" role="search">
+                                        <div class="input-group input-group-sm col-md-12" style="">
+                                            <input type="text" class="form-control" placeholder="http://..." name="csw_url" id="csw_url" ng-model="csw_config.url" />
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default" type="submit" ng-click="reloadPage()"><i class="glyphicon glyphicon-globe"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+				</div>
+            </div>
+        </nav>
+        
+        <div id="content" class="container-fluid">
+          <div class="row" ng-include="template_url" ng-init="template_url = 'partials/tpl-grid.html'">
+          </div>
+          <div class="row row-centered" ng-show="status.nextPage">
+            <div class="col-centered">
+              <div class="btn btn-warning btn-xs" ng-click="moreMetadata()">Plus de fiches...</div>
+            </div>
+          </div>
+        </div>
+        
+        <nav id="footer" class="navbar navbar-default navbar-fixed-bottom">
+            <div class="container-fluid">
+                <p class="navbar-text">
+                    <span class="hidden-xs">CSW: <a id="csw_url" href="{{csw_config.url}}" target="_blank">{{csw_config.url}}</a></span>
+                    <span class="visible-xs-inline">
+                        <a class="navbar-link_" id="csw_url" href="{{csw_config.url}}" target="_blank">CSW</a>
+                        (<span id="nb_records_visible">{{data.nb_records_visible}}</span> /
+                        <span id="nb_records_matched">{{data.nb_records_matched}}</span>)
+                    </span>
+                </p>
+                <p class="navbar-text navbar-right hidden-xs">
+                    <span id="nb_records_visible">{{data.nb_records_visible}}</span>
+                    fiches visibles sur
+                    <span id="nb_records_matched">{{data.nb_records_matched}}</span>
+                </p>
+            </div>
+        </nav>
+        
+        <script src="./lib/jquery/jquery-2.1.4.min.js"></script>
+        <script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="./lib/angular/angular.min.js"></script>
+        <script src="./lib/angular/i18n/angular-locale_fr-fr.js"></script>
+        <script src="./lib/ui-bootstrap/ui-bootstrap-tpls-0.13.0.min.js"></script>
         <script src="./js/codelists.js"></script>
         <script src="./js/xpaths.js"></script>
         <script src="./js/helpers.js"></script>
         <script src="./js/config.js"></script>
-        <script src="./js/mdReader.js"></script>
         <script src="./js/cswReader.js"></script>
+        <script src="./js/mdReader.js"></script>
         <script src="./js/index.js"></script>
         <style type="text/css">
         </style>
         <script language="javascript" type="text/javascript">
+            $('body').tooltip({
+                selector: '[data-toggle=tooltip]'
+            });
         </script>
     </body>
 </html>

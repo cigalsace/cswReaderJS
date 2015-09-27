@@ -1,37 +1,39 @@
 <script id="tpl_listPage" type="text/html">
     {{#md}}
     <!-- medium -->
-    <div class="uk-grid uk-grid-preserve uk-hidden-small">
-        <div class="uk-width-medium-1-6 uk-thumbnail uk-thumbnail-mini">
+    <div class="row md_list_item">
+        <div class="thumbnail col-lg-1 col-md-2 col-sm-3 col-xs-4">
             <!--<img width="220" height="" src="{{Data_BrowseGraphics.Data_BrowseGraphic_Name}}" alt="">-->
-            <img width="" height="" src="{{Data_BrowseGraphics.Data_BrowseGraphic_Name}}" alt="">
+            <img class="img-rounded img-responsive" height="" src="{{Data_BrowseGraphics.Data_BrowseGraphic_Name}}" alt="">
         </div>
-        <div class="uk-width-medium-5-6 uk-width-small-1-1">
-            <h2 class="uk-h4">
+        <div class="col-lg-11 col-md-10 col-sm-9 col-xs-8">
+            <h4 class="">
                 <strong>
                     <a 
                     {{#MD_URL}}
                         href="{{MD_URL}}" class="bt_onViewMd" target="_blank"
                     {{/MD_URL}}>{{Data_Title}}</a>
                 </strong>
-            </h2>
+            </h4>
             <p>{{Data_Abstract}}</p>
-            <div style="height:2em;">
+            <div class="labels" style="">
                     {{#Data_TopicCategories}}
-                        <div class="uk-badge uk-badge-warning">{{Data_TopicCategory}}</div>
+                        <div class="label label-warning">{{Data_TopicCategory}}</div>
                     {{/Data_TopicCategories}}
                     {{#Data_Keywords}}
-                        <div class="uk-badge">{{Data_Keyword}}</div>
+                        <div class="label label-info">{{Data_Keyword}}</div>
                     {{/Data_Keywords}}
                     <!--<br />-->
             </div>
-            {{#Data_WMS}}<span title="Données disponibles via un flux WMS" class="uk-badge uk-align-right uk-margin-bottom-remove">WMS</span>{{/Data_WMS}}
-            {{#Data_WFS}}<span title="Données disponibles via un flux WFS" class="uk-badge uk-badge-warning  uk-align-right uk-margin-bottom-remove">WFS</span>{{/Data_WFS}}
-            {{#Data_OD}}<span title="Données disponibles via un flux WMS" class="uk-badge uk-badge-success uk-align-right uk-margin-bottom-remove">Open data</span>{{/Data_OD}}
+            <div class="labels pull-right">
+                {{#Data_WMS}}<span title="Données disponibles via un flux WMS" class="label label-primary">WMS</span>{{/Data_WMS}}
+                {{#Data_WFS}}<span title="Données disponibles via un flux WFS" class="label label-warning">WFS</span>{{/Data_WFS}}
+                {{#Data_OD}}<span title="Données disponibles via un flux WMS" class="label label-success">Open data</span>{{/Data_OD}}
+            </div>
         </div>
     </div>
     <!-- small -->
-    <div class="uk-visible-small">
+    <div class="visible-xs-block hidden-xs">
         <div class="uk-width-small-1-1 uk-margin-large-bottom">
             <h2 class="uk-h4" style="text-align: center;">
                 <strong>
@@ -55,7 +57,7 @@
             </div>
         </div>
     </div>
-    <hr class="uk-grid-divider uk-margin-large-top">
+    <hr class="divider">
     {{/md}}
 
 </script>

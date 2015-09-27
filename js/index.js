@@ -1,3 +1,4 @@
+/*
 $( document ).ready(function() {
 
     // Charger page principale (template 'content.html')
@@ -24,11 +25,6 @@ $( document ).ready(function() {
             var url_page = csw_url;
             data_page = '';
         }
-        /*
-        if (mdReader_url) {
-            data['mdReader_url'] = mdReader_url;
-        }
-        */
         data['csw_url'] = csw_config.csw_url;
         data['csw_url_complete'] = csw_url;
         
@@ -67,15 +63,15 @@ $( document ).ready(function() {
                     }
                     //console.log(data.view);
                     if (data.view == 'listView') {
-                        $('#md_grid').addClass('uk-hidden');
-                        $('#md_list').removeClass('uk-visible-small');
-                        $('#bt_gridView').addClass('uk-hidden');
-                        $('#bt_listView').removeClass('uk-hidden');
+                        $('#md_grid').addClass('hidden');
+                        $('#md_list').removeClass('visible-xs-block');
+                        $('#bt_gridView').addClass('hidden');
+                        $('#bt_listView').removeClass('hidden');
                     } else {
-                        $('#md_grid').removeClass('uk-hidden');
-                        $('#md_list').addClass('uk-visible-small');
-                        $('#bt_gridView').removeClass('uk-hidden');
-                        $('#bt_listView').addClass('uk-hidden');
+                        $('#md_grid').removeClass('hidden');
+                        $('#md_list').addClass('visible-xs-block');
+                        $('#bt_gridView').removeClass('hidden');
+                        $('#bt_listView').addClass('hidden');
                     }
                 }
             },
@@ -143,9 +139,9 @@ $( document ).ready(function() {
             var view = $(this).attr('href');
             data.view = view;
             console.log(view);
-            $('#md_grid').toggleClass('uk-hidden');
-            $('#md_list').toggleClass('uk-visible-small');
-            $('.bt_onChangeView').toggleClass('uk-hidden');
+            $('#md_grid').toggleClass('hidden');
+            $('#md_list').toggleClass('visible-xs-block');
+            $('.bt_onChangeView').toggleClass('hidden');
         });
     }
     on_changeView();
@@ -184,6 +180,163 @@ $( document ).ready(function() {
         });
     }
     on_viewMd();
+    
+});
+*/
 
+
+
+//"use strict";
+
+/**
+ * Déclaration de l'application Angular JS mdEditApp
+ */
+var cswReaderApp = angular.module('cswReaderApp', [
+    // Dépendance
+    'ui.bootstrap',
+    'cswReader'
+]);
+
+// Déclaration du module mdEdit
+var cswReader = angular.module('cswReader',[]);
+
+// Contrôleur de l'application mdReader
+cswReader.controller('cswReaderCtrl', ['$scope', '$http', '$sce',  '$modal', '$log', function ($scope, $http, $sce,  $modal, $log) {
+    $scope.app = app;
+    $scope.server = server_url;
+    $scope.config = config;
+    $scope.constraint_type_search_list = constraint_type_search_list;
+    $scope.csw_list = csw_list;
+    $scope.csw_config = csw_config;
+    $scope.md_config = md_config;
+    $scope.data = {};
+    $scope.data.md = [];
+    $scope.status = { nextPage: false };
+
+    function getData(add) {
+        add = add || false;
+        var csw_url = csw_urlConstruct($scope.csw_config);
+        if (server_url) {
+            var url_page = server_url;
+            var params_page = csw_url;
+        } else {
+            var url_page = csw_url;
+            params_page = '';
+        }
+        $http.get(url_page +'?url=' + encodeURIComponent(params_page)).success(function(xml) {
+            var data = parseCSW(xml);
+            if (data.md) {
+                if (add) {
+                    data.md = $scope.data.md.concat(data.md);
+                }
+                $scope.data = data;
+            }
+            /*
+            if ($scope.data.nb_records_matched - $scope.data.nb_records_visible != 0) {
+                $scope.status.nextPage = true;
+            } else {
+                $scope.status.nextPage = false;
+            }*/
+            if ($scope.data.nb_records_returned < $scope.csw_config.maxrecords) {
+                $scope.status.nextPage = false;
+            } else {
+                $scope.status.nextPage = true;
+            }
+        });
+    }
+    getData();
+  
+    $scope.moreMetadata = function() {
+        $scope.csw_config.startposition = $scope.data.next_record;
+        getData(true);
+    };
+    
+    $scope.reloadPage = function(csw_url, constraint_search_type) {
+        if (csw_url) {
+            $scope.csw_config.url = csw_url;
+        }
+        if (constraint_search_type) {
+            $scope.csw_config.constraint_search_type = constraint_search_type;
+        }
+        $scope.csw_config.startposition = 1;
+        getData();
+    };
+    
+    $scope.clearSearch = function() {
+        $scope.csw_config.constraint = '';
+        //$scope.reloadPage();
+        $scope.csw_config.startposition = 1;
+        getData();
+    };
+    
+    $scope.modalDoc = function(doc_url) {
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/modal-doc.html',
+            controller: 'modalDocCtrl',
+            size: 'lg',
+            windowClass: 'modal-doc',
+            resolve: {
+                doc_url: function () {
+                    return doc_url;
+                },
+                scopeParent: function () {
+                    return $scope;
+                }
+            }
+        });
+    };
+    
+    $scope.modalMdReader = function(md_url) {
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/modal-mdreader.html',
+            controller: 'modalMdReaderCtrl',
+            size: 'lg',
+            windowClass: 'modal-mdreader',
+            resolve: {
+                md_url: function () {
+                    return md_url;
+                },
+                scopeParent: function () {
+                    return $scope;
+                }
+            }
+        });
+    };
+}]);
+
+cswReader.controller('modalDocCtrl', function ($sce, $scope, $modalInstance, scopeParent, doc_url) {
+    $scope.scopeParent = scopeParent;
+    $scope.doc_url = doc_url;
+    
+    $scope.close = function() {
+        // Appel à la fonction d'annulation.
+        $modalInstance.dismiss('cancel');
+    };
+});
+
+cswReader.controller('modalMdReaderCtrl', function ($http, $sce, $scope, $modalInstance, scopeParent, md_url) {
+    $scope.scopeParent = scopeParent;
+    $scope.md_url = md_url;
+    
+    console.log(md_url);
+    
+    $http.get(scopeParent.server +'?url=' + encodeURIComponent(md_url))
+        .success(function(xml) {
+            var md = parseMD(xml);
+            md.md_url = md_url;
+            md.app = $scope.scopeParent.app;
+            if (md) {
+                $scope.md = md;
+            }
+        })
+        .error(function(xml) {
+            alert("Impossible de charger l'URL.");
+        });
+    
+    
+    $scope.close = function() {
+        // Appel à la fonction d'annulation.
+        $modalInstance.dismiss('cancel');
+    };
 });
 

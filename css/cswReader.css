@@ -1,53 +1,67 @@
-html {
-    /*font-size: 12px;*/
-}
 body {
-    margin: 10px;
-}
-#content {
-    position:absolute;
-    top:80px;
+    padding-top: 70px;
     padding-bottom: 70px;
-    background:#fff;
 }
-#header {
-    position:fixed;
-    left:0px;
-    top:0px;
-    margin:0;
-    padding:0px;
-    width:100%;
-    background:#fff;
+/*
+#navbar-search, #header nav form .input-group {
+    width: 100%;
 }
-#footer {
-    position:fixed;
-    left:0px;
-    bottom:0px;
-    width:100%;
-    background:#fff;
-    margin:0;
-    padding:1px;
-}
-#page {
-    /*min-width:100%;*/
-}
-ul#switcher-content {
-    list-style-type: none;
-}
-#md_list .uk-grid {
-    margin: 0 0 0 15px;
-}
-.md_grid_item {
-    width: 220px;
-    /*min-height: 300px;*/
-}
+*/
 .md_grid_item a:hover, .md_grid_item a:focus {
     text-decoration: none;
 }
-.keywords {
+.md_grid_item {
+    margin-bottom: 1.2em;
+}
+.md_grid_item .labels, .md_list_item .labels {
+    display: inline-block;
+    padding: 0.8em 0 0 0.5em;
+}
+.md_grid_item .labels .label, .md_list_item .labels .label {
+    margin: 0 .2em 0 0;
     text-transform: uppercase;
+    display: inline-block;
 }
-#switcher-content {
-    margin: 0;
-    padding: 0;
+
+.md_list_item {
+    margin-left: 1em;
+    margin-right: 1em;
 }
+
+/*
+.md_list_item .keywords {
+    text-transform: uppercase;
+    margin: 0 .5em 1em 0; 
+    display: inline-block;
+}
+*/
+.image img{
+    max-height: 200px;
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+.thumbnail {
+    margin-bottom: 0;
+}
+
+hr {
+    float:left; 
+    width:100%;
+}
+
+/* centered columns styles - use for button "Plus de fiches..." bottom of page */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
+

@@ -237,7 +237,7 @@ var MD_ScopeCode = {
 // Liste des valeurs
 var MD_SpatialRepresentationTypeCode = {
     grid: {
-        name: 'Rasteur',
+        name: 'Raster',
         description: 'données raster - sous forme de grille ou d\'image'
     },
     vector: {
