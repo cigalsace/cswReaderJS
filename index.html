@@ -1,33 +1,216 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" ng-app="cswReader">
+
     <head>
-		<meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="robots" content="noindex,nofollow" />
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noindex,nofollow"/>
         <title>cswReader</title>
-        <!--<link rel="stylesheet" href="./css/uikit.min.css" />-->
-        <link rel="stylesheet" href="./css/uikit.almost-flat.min.css" />
-        <link rel="stylesheet" href="./css/components/tooltip.almost-flat.min.css" />
-        <link rel="stylesheet" href="./css/cswReader.css" />
-        <link rel="stylesheet" href="./css/mdReader.css" />
+        <link rel="stylesheet" href="./lib/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="./css/table.css"/>
+        <link rel="stylesheet" href="./css/cswReader.css"/>
+        <style type="text/css"></style>
+        <base href=".">
     </head>
-    <body>
-        <div id="content" class="uk-grid uk-margin"></div>
-        <script src="./js/lib/jquery-2.1.4.min.js"></script>
-        <script src="./js/lib/mustache.js"></script>
-        <script src="./js/lib/jquery.mustache.js"></script>
-        <script src="./js/lib/uikit.min.js"></script>
-        <script src="./js/lib/components/tooltip.min.js"></script>
-        <script src="./js/codelists.js"></script>
-        <script src="./js/xpaths.js"></script>
-        <script src="./js/helpers.js"></script>
-        <script src="./js/config.js"></script>
-        <script src="./js/mdReader.js"></script>
-        <script src="./js/cswReader.js"></script>
-        <script src="./js/index.js"></script>
-        <style type="text/css">
-        </style>
+
+    <body ng-controller="cswReaderCtrl as vm">
+
+        <nav id="header" class="navbar navbar-default navbar-fixed-top" ng-show="vm.data.display.header">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">
+                        <span class="glyphicon glyphicon-globe"></span>
+                        {{vm.data.config.app.title}}
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <div ng-hide="vm.data.view == 'view'">
+                        <form class="navbar-form navbar-left" role="search">
+                            <div class=" form-group has-feedback">
+                                <div class="input-group input-group-sm" style="display:table;">
+                                    <div class="input-group-btn" uib-dropdown>
+                                        <a id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle>
+                                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="(constraint_type_key, constraint_type_label) in vm.data.constraints" ng-click="vm.reloadPage(vm.data.config.csw.url, constraint_type_key)">
+                                                <a href="#">
+                                                    <span class="glyphicon glyphicon-check" aria-hidden="true" ng-if="vm.data.config.csw.constraint_type == constraint_type_key"></span>
+                                                    <span class="glyphicon glyphicon-unchecked" aria-hidden="true" ng-if="vm.data.config.csw.constraint_type != constraint_type_key"></span>
+                                                    {{constraint_type_label}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- /btn-group -->
+                                    <input type="text" class="form-control" id="#navbar-search" placeholder="{{vm.data.ui.placeholder_search}}" ng-model="vm.data.config.csw.constraint">
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-default hidden" ng-click="vm.reloadPage()">
+                                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="vm.clearSearch()">
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="navbar-text" ng-show="vm.data.config.csw.constraint_type != ''">
+                            <small>
+                                <em>
+                                    ({{vm.data.ui.in}}
+                                    {{vm.data.constraints[vm.data.config.csw.constraint_type]}})</em>
+                            </small>
+                        </div>
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="" uib-tooltip="{{vm.data.ui.bt_help}}" tooltip-trigger="mouseenter" tooltip-placement="bottom">
+                            <a href="#" role="button" class="glyphicon glyphicon-info-sign" ng-click="vm.openModalDoc('help')">
+                                <span class="visible-xs-inline">
+                                    {{vm.data.ui.bt_help}}</span>
+                            </a>
+                        </li>
+                        <li class="" uib-tooltip="{{vm.data.ui.tooltip_changeview}}" tooltip-trigger="mouseenter" tooltip-placement="bottom" ng-hide="vm.data.view == 'view'">
+                            <a href="#" role="button" class="glyphicon glyphicon-th" ng-click="vm.changeView('grid', vm.data.lang)" ng-show="vm.data.view == 'list' || vm.data.view == 'view'">
+                                <span class="visible-xs-inline">
+                                    {{vm.data.ui.bt_grid}}</span>
+                            </a>
+                            <a href="#" role="button" class="glyphicon glyphicon-th-list" ng-click="vm.changeView('list', vm.data.lang)" ng-show="vm.data.view == 'grid'">
+                                <span class="visible-xs-inline">
+                                    {{vm.data.ui.bt_list}}</span>
+                            </a>
+                        </li>
+                        <li uib-dropdown is-open="status.isopen" uib-tooltip="{{vm.data.ui.tooltip_changecat}}" tooltip-trigger="mouseenter" tooltip-placement="bottom" ng-click="$event.stopPropagation()" ng-hide="vm.data.view == 'view'">
+                            <a type="button" id="simple-dropdown" uib-dropdown-toggle class="glyphicon glyphicon-globe">
+                                <span class="visible-xs-inline">
+                                    {{vm.data.ui.bt_cat}}</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+                                <li ng-repeat="csw in vm.data.csw_list track by $index">
+                                    <a href="" ng-click="vm.reloadPage(csw.url)">
+                                        <strong>{{csw.title}}</strong><br/>
+                                        <span class="uk-hidden-small">{{csw.description}}</span>
+                                    </a>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li class="">
+                                    <form id="form_cswurl" class="navbar-form" role="search">
+                                        <div class="input-group input-group-sm col-md-12" style="">
+                                            <input type="text" class="form-control" placeholder="{{vm.data.ui.placeholder_csw_url}}" name="csw_url" id="csw_url" ng-model="vm.data.config.csw.url"/>
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default" type="submit" ng-click="vm.reloadPage()">
+                                                    <i class="glyphicon glyphicon-globe"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                        <!--
+                        <li class="" uib-tooltip="{{vm.data.ui.bt_close}}" tooltip-trigger="mouseenter" tooltip-placement="bottom" ng-show="vm.data.view == 'view'">
+                            <a href="#" role="button" class="glyphicon glyphicon-remove" ng-click="vm.changeView(vm.data.oldView)">
+                                <span class="visible-xs-inline">
+                                    {{vm.ui.bt_close}}</span>
+                            </a>
+                        </li>
+                        -->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div id="content" ng-include="vm.data.template_url"></div>
+
+        <footer id="footer" ng-show="vm.data.display.footer">
+            <nav class="navbar navbar-default navbar-fixed-bottom">
+                <div class="container-fluid">
+                    <div class="navbar-text navbar-left">
+                        <a href="{{vm.data.config.app.copyrights_url}}" class="navbar-link">{{vm.data.config.app.copyrights}}</a>
+                    </div>
+                    <div ng-hide="vm.data.pageLoaded" id="alert" class="navbar-text navbar-left" role="alert">
+                        <uib-progressbar class="progress-striped active" value="100" type="info">{{vm.data.ui.loading}}</uib-progressbar>
+                    </div>
+                    <div class="navbar-text navbar-right">
+                        <span>
+                            {{vm.data.csw_json.nb_records_visible}}
+                            /
+                            {{vm.data.csw_json.nb_records_matched}}
+                        </span>
+                        -
+                        <a href="" ng-click="vm.openModalDoc('mentions')" class="navbar-link">{{vm.data.ui.bt_mentions}}</a>
+                        -
+                        <!-- changeLocales directive -->
+                        <span change-locales></span>
+                        -
+                        <!-- permalink -->
+                        <a target="_blank" role="button" class="navbar-link glyphicon glyphicon-link" ng-click="vm.getPermalink()"></a>
+                    </div>
+                </div>
+            </nav>
+        </footer>
+
+        <!-- JS Scripts -->
+        <!-- Libs -->
+        <script src="./lib/showdown/1.6.2/showdown.min.js"></script>
+        <script src="./lib/jquery/jquery-3.1.1.min.js"></script>
+        <!-- <script src="./lib/angular/angular-1.6.1.js"></script> -->
+        <script src="./lib/angular/angular-1.6.1.min.js"></script>
+        <!-- <script src="./lib/angular/1.5.3/i18n/angular-locale_fr-fr.js"></script> -->
+        <script src="./lib/ui-bootstrap/ui-bootstrap-tpls-2.5.0.min.js"></script>
+        <!--<script src="./lib/moment/moment-with-locales.min.js"></script>-->
+        <!-- <script src="./lib/vkbeautify/vkbeautify.js"></script> -->
+        <script src="./lib/ng-infinite-scroll/1.0.0/ng-infinite-scroll.min.js"></script>
+        <script src="./lib/mdjs/mdjs.js"></script>
+        <script src="./lib/cswjs/cswjs.js"></script>
+
+        <!-- cswReader App -->
+        <script src="./app/cswReader.js"></script>
+        <script src="./app/cswReader.controllers.js"></script>
+
+        <!-- cswReader Services -->
+        <script src="./app/cswReader.services/helper.js"></script>
+        <script src="./app/cswReader.services/appData.js"></script>
+        <script src="./app/cswReader.services/broadcast.js"></script>
+        <script src="./app/cswReader.services/config.js"></script>
+        <!-- <script src="./app/cswReader.services/constraints.js"></script> -->
+        <script src="./app/cswReader.services/csw.js"></script>
+        <script src="./app/cswReader.services/locales.js"></script>
+        <script src="./app/cswReader.services/views.js"></script>
+        <script src="./app/cswReader.services/permalink.js"></script>
+        <script src="./app/cswReader.services/xml.js"></script>
+        <script src="./app/cswReader.services/mdjs.js"></script>
+        <script src="./app/cswReader.services/jsonConverter.js"></script>
+        <script src="./app/cswReader.services/checkValues.js"></script>
+        <script src="./app/cswReader.services/md.js"></script>
+        <script src="./app/cswReader.services/empty-json.js"></script>
+
+        <!-- cswReader filters -->
+        <script src="./app/cswReader.filters/array2string.js"></script>
+        <script src="./app/cswReader.filters/string2array.js"></script>
+        <script src="./app/cswReader.filters/nl2br.js"></script>
+        <script src="./app/cswReader.filters/translateCode.js"></script>
+
+        <!-- cswReader directives -->
+        <script src="./app/cswReader.directives/changeLocales/changeLocales.js"></script>
+
+        <!-- modalDoc module -->
+        <script src="./app/modalDoc.module/modalDoc.controllers.js"></script>
+        <script src="./app/modalDoc.module/modalDoc.services.js"></script>
+
         <script language="javascript" type="text/javascript">
+            console.log('cswReader start!');
         </script>
     </body>
+
 </html>

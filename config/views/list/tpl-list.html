@@ -1,0 +1,30 @@
+<!-- tpl-list -->
+<div class="container-fluid">
+    <div infinite-scroll="vm.getMore(true)" infinite-scroll-disabled="!vm.data.pageLoaded" infinite-scroll-distance="1">
+        <div class="row md_list_item" ng-repeat="md in vm.data.csw_json.md track by $index">
+            <div class="thumbnail col-lg-2 col-md-3 col-sm-4 col-xs-2">
+                <img class="img-rounded img-responsive" height="" ng-src="{{md.Data_BrowseGraphics.Data_BrowseGraphic_Name}}" alt="">
+            </div>
+            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-10">
+                <h4 class="">
+                    <strong>
+                        <a ng-if="md.MD_URL != ''" href="#" ng-click="vm.viewMd(md.MD_FileIdentifier)">
+                            {{md.Data_Title}}
+                        </a>
+                    </strong>
+                </h4>
+                <p>{{md.Data_Abstract}}</p>
+                <div class="labels pull-left">
+                    <div class="label label-warning" ng-repeat="topic in md.Data_TopicCategories track by $index">{{topic}}</div>
+                    <div class="label label-info" ng-repeat="keyword in md.Data_Keywords track by $index">{{keyword}}</div>
+                </div>
+                <div class="labels pull-right">
+                    <span title="{{vm.data.ui.view.kw_od_title}}" class="label label-success" ng-if="md.Data_OD != ''">{{vm.data.ui.view.kw_od}}</span>
+                    <span title="{{vm.data.ui.view.kw_wfs_title}}" class="label label-warning" ng-if="md.Data_WFS != ''">{{vm.data.ui.view.kw_wfs}}</span>
+                    <span title="{{vm.data.ui.view.kw_wms_title}}" class="label label-primary" ng-if="md.Data_WMS != ''">{{vm.data.ui.view.kw_wms}}</span>
+                </div>
+            </div>
+            <hr/>
+        </div>
+    </div>
+</div>

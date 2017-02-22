@@ -1,0 +1,23 @@
+[
+    {
+        "id": "0",
+        "title": "Fiches du CG67",
+        "description": "Flux CSW du Conseil Général du Bas-Rhin.",
+        "url": "https://www.cigalsace.org/geonetwork/srv/fre/csw-cg67"
+    }, {
+        "id": "2",
+        "title": "CSW CIGAL - Géocatalogue",
+        "description": "Flux CSW du serveur CIGAL contenant les fiches pour le Géocatalogue national.",
+        "url": "https://www.cigalsace.org/geonetwork/srv/fre/csw-geocatalogue"
+    }, {
+        "id": "1",
+        "title": "CSW CIGAL - Général",
+        "description": "Flux CSW du serveur CIGAL contenant l'ensemble des fiches de métadonnées.",
+        "url": "https://www.cigalsace.org/geonetwork/srv/fre/csw"
+    }, {
+        "id": "3",
+        "title": "Liste de fichiers XML",
+        "description": "Flux CSW produit avec \"cswServer\" à partir d'une liste de fichier XML.",
+        "url": "http://cigalsace.net/cswServer/0.01/csw/node.php"
+    }
+]

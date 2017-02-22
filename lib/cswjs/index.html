@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow" />
+    <title>mdjs - test</title>
+    <style type="text/css">
+
+    </style>
+</head>
+
+<body>
+    <div id="page"></div>
+    <!-- JS Scripts -->
+    <script src="../jquery/jquery-3.1.1.min.js"></script>
+    <script src="cswjs.js"></script>
+
+    <script language="javascript" type="text/javascript">
+        jQuery.noConflict();
+        (function(jQuery) {
+            jQuery.ajax({
+                 //url: 'data/test.xml',
+                 url: 'csw-geocatalogue.xml',
+                // url: 'data/ortho.xml',
+                // url: 'data/IGNF_SCAN1000r_2-0.xml',
+                //url: 'data/test1.xml',
+                // url: 'data/service.xml',
+                success: function(response) {
+                    console.log(response);
+                    var xml = new cswjs.Xml(response);
+                    
+                    console.log(xml.toJson());
+                
+                /*
+                    ////////////////////////////////////////////////////////////
+                    // Test mdjs.Metadata Classe
+                    ////////////////////////////////////////////////////////////
+                    var metadata = new mdjs.Metadata();
+                    metadata.setXml(response);
+                    // console.log(response);
+                    console.log('metadata.xml (XmlDoc):', metadata.get('xml'));
+                    console.log('metadata.xml (Normal string):', metadata.getXmlString({}));
+                    console.log('metadata.xml (String with beautifier):', metadata.getXmlString({
+                        beautifier: true
+                    }));
+                    console.log('metadata.xml (String with minify):', metadata.getXmlString({
+                        minify: true
+                    }));
+                    console.log('metadata.json:', metadata.get('json'));
+                    console.log('fileIdentifier:', metadata.get('xml').getNodeValues('//gmd:MD_Metadata/gmd:fileIdentifier/gco:CharacterString')[0]);
+                    console.log('fileIdentifier 2:', metadata.get('xml').getNodeValues(mdjs.model_xml.main.mdFileIdentifier.xpath)[0]);
+                    // Other way with relative path
+                    // var root = metadata.get('xml').getNodeFromPath('//gmd:MD_Metadata').iterateNext();
+                    var root = metadata.get('xml').getNodeFromPath('//gmd:MD_Metadata').snapshotItem(0);
+                    console.log(root);
+                    console.log('fileIdentifier (relative path):', metadata.get('xml').getNodeValues('gmd:fileIdentifier/gco:CharacterString', root)[0]);
+
+                    // console.log(JSON.stringify(metadata.getJson()));
+                    console.log('toJson: ', metadata.toJson());
+
+                    ////////////////////////////////////////////////////////////
+                    // Test mdjs.Metadata Classe
+                    ////////////////////////////////////////////////////////////
+                    // console.log('response:', response);
+                    var metadata2 = new mdjs.Metadata();
+                    // //metadata2.setJson(metadata.getJson());
+                    //
+                    console.log(metadata2.toXmlString({
+                        beautifier: true
+                    }, metadata.getJson()));
+                */
+
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log('Data Could Not Be Loaded - ' + textStatus);
+                }
+            });
+        })(jQuery);
+
+    </script>
+</body>
+
+</html>

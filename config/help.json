@@ -1,0 +1,6 @@
+{
+    "mentions": "config/pages/mentions.md",
+    "default": "config/pages/empty.md",
+    "empty": "config/pages/empty.md",
+    "help": "documentation/userGuide/cswReader_UserDocumentation.md"
+}

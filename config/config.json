@@ -1,0 +1,47 @@
+{
+    "app": {
+        "name": "cswReader",
+        "title": "cswReader",
+        "version": "0.2.1",
+        "copyrights": "(c) CIGAL 2016",
+        "copyrights_url": "https://www.cigalsace.org",
+        "lang": "fr",
+        "proxy_server_url": "php/index.php?url=",
+        "views_file": "config/views/views.json",
+        "locales_path": "config/locales/",
+        "constraint_search_file": "config/constraints_search.json",
+        "csw_url_file": "config/csw_url.json",
+        "view": "grid",
+        "header": 1,
+        "footer": 1
+    },
+    "csw": {
+        "url": "",
+        "elementsetname": "full",
+        "maxrecords": "20",
+        "startposition": "1",
+        "version": "2.0.2",
+        "service": "CSW",
+        "request": "GetRecords",
+        "constraintlanguage": "CQL_TEXT",
+        "postencoding": "XML",
+        "resulttype": "results",
+        "outputschema": "http://www.isotc211.org/2005/gmd",
+        "typenames": "gmd:MD_Metadata",
+        "constraint_language_version": "1.0.0",
+        "constraint_type": "AnyText",
+        "constraint": ""
+    },
+    "md": {
+        "url": "",
+        "request": "GetRecordById",
+        "service": "CSW",
+        "version": "2.0.2",
+        "elementsetname": "full",
+        "postencoding": "XML",
+        "resulttype": "results",
+        "outputschema": "http://www.isotc211.org/2005/gmd",
+        "typenames": "gmd:MD_Metadata",
+        "id": ""
+    }
+}
