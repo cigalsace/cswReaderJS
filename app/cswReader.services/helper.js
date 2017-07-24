@@ -12,10 +12,10 @@ helperSrv.$inject = ['$location', 'AppDataSrv'];
 
 function helperSrv($location, AppDataSrv) {
 
-	var promise;
 	var helperSrv = {
 		getParam: getParam,
-        clearJson: clearJson
+        clearJson: clearJson,
+        getProxyUrl: getProxyUrl
 	};
 
 	return helperSrv;
@@ -27,7 +27,7 @@ function helperSrv($location, AppDataSrv) {
         var value = $location.search()[block];
 		if (typeof value != 'undefined') {
             response = value;
-            if (['0', 'false'].indexOf(value.toLowerCase()) > -1 ) {
+            if (typeof value!= 'boolean' && ['0', 'false'].indexOf(value.toLowerCase()) > -1 ) {
                 response = 0;
             }
 		}
@@ -42,5 +42,16 @@ function helperSrv($location, AppDataSrv) {
             }
         }
         return result;
+    }
+
+    function getProxyUrl(url) {
+        if (AppDataSrv.config.app.proxy_server_url) {
+            return AppDataSrv.config.app.proxy_server_url + encodeURIComponent(url);
+        }
+        return url;
+    }
+
+    function getBaseUrl(url) {
+        return url.split('?')[0];
     }
 }

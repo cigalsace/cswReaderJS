@@ -13,7 +13,8 @@
         "csw_url_file": "config/csw_url.json",
         "view": "grid",
         "header": 1,
-        "footer": 1
+        "footer": 1,
+        "advancedSearch": 0
     },
     "csw": {
         "url": "",

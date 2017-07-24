@@ -37,7 +37,8 @@ function mdjsSrv(AppDataSrv, jsonConverterSrv) {
         var metadata = new mdjs.Metadata();
         metadata.setXml(xml);
         var md = metadata.toJson();
-        console.log(md);
+        // console.log(md);
         AppDataSrv.metadata = jsonConverterSrv.mdjsToForm(md);
+        console.log(AppDataSrv.metadata);
     }
 }

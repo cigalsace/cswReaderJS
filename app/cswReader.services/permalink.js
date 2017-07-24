@@ -15,11 +15,11 @@ function PermalinkSrv(AppDataSrv) {
     var PermalinkSrv = {
         get: get
     };
-    
+
     return PermalinkSrv;
-    
+
     ////////////////////////////////////////////////////////////////////////
-    
+
     function get() {
         var url = 'index.html?';
         var params = [];
@@ -38,5 +38,5 @@ function PermalinkSrv(AppDataSrv) {
         params.push('constraint=' + AppDataSrv.config.csw.constraint);
         return url + params.join('&');
     }
-    
+
 }

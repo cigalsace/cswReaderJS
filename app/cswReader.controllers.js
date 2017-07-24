@@ -22,7 +22,7 @@ function cswReaderCtrl(AppDataSrv, $http, $sce, $window, BroadcastSrv, cswSrv, v
 
     function loadPage() {
         // console.log(vm.data);
-        vm.getMore = cswSrv.getCswJson;
+        vm.getMore = cswSrv.getRecords;
 
         vm.reloadPage = function(csw_url, constraint_type) {
             vm.data.disableInfiniteScroll = false;
@@ -33,7 +33,7 @@ function cswReaderCtrl(AppDataSrv, $http, $sce, $window, BroadcastSrv, cswSrv, v
                 vm.data.config.csw.constraint_type = constraint_type;
             }
             vm.data.config.csw.startposition = 1;
-            cswSrv.getCswJson(false);
+            cswSrv.getRecords();
         };
 
         vm.clearSearch = function() {

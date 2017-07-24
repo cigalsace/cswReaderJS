@@ -287,7 +287,7 @@ function jsonConverterSrv(AppDataSrv, checkValuesSrv) {
      * @return {Object}      result JSON metadata object to display in mdEdit form
      */
     function mdjsToForm(json) {
-        
+
         // console.log(json);
 
         // Merge json with empty object to full empty values
@@ -502,6 +502,12 @@ function jsonConverterSrv(AppDataSrv, checkValuesSrv) {
             json.dataIdentifiers.push(mdjs.empty_json.identifier);
         }
 
+
+        // spliter l'URL sur ?
+        // prendre la première partie [0]
+        // ajouter la terminaison à partir de dataLinkages[lk].name
+
+
         // dataLinkages
         for (var lk = 0; lk < json.dataLinkages.length; lk++) {
             if (!json.dataLinkages[lk].description) {
@@ -518,6 +524,35 @@ function jsonConverterSrv(AppDataSrv, checkValuesSrv) {
                     json.dataLinkages[lk].name = json.dataLinkages[lk].description;
                 }
             }
+            /*
+            if (json.dataLinkages[lk].protocol && json.dataLinkages[lk].protocol.toLowerCase().indexOf('wfs') !== -1) {
+                var url_base = json.dataLinkages[lk].url.split('?')[0] + "?service=WFS&version=1.0.0&request=GetFeature&maxFeatures=50000&typeName=" + json.dataLinkages[lk].name;
+                json.dataLinkages[lk].wfs_url = [
+                    {
+                        format: 'CSV',
+                        url: url_base + "&outputFormat=csv"
+                    }, {
+                        format: 'GML 2',
+                        url: url_base + "&outputFormat=GML2"
+                    }, {
+                        format: 'GML 3.1',
+                        url: url_base + "&outputFormat=text%2Fxml%3B+subtype%3Dgml%2F3.1.1"
+                    }, {
+                        format: 'GML 3.2',
+                        url: url_base + "&outputFormat=application%2Fgml%2Bxml%3B+version%3D3.2"
+                    }, {
+                        format: 'KML',
+                        url: url_base + "&outputFormat=application%2Fvnd.google-earth.kml%2Bxml"
+                    }, {
+                        format: 'SHP',
+                        url: url_base + "&outputFormat=SHAPE-ZIP"
+                    }, {
+                        format: 'GeoJson',
+                        url: url_base + "&outputFormat=application%2Fjson"
+                    }
+                ];
+            }
+            */
         }
         if (json.dataLinkages.length === 0) {
             json.dataLinkages.push(mdjs.empty_json.linkage);

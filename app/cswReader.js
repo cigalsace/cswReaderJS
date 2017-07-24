@@ -36,6 +36,7 @@ function runApp(configSrv, cswSrv, AppDataSrv, BroadcastSrv, localesSrv, viewsSr
                 // Get URL query parameters
                 AppDataSrv.display = {};
                 AppDataSrv.display.header = helperSrv.getParam('header', AppDataSrv.config.app.header);
+                AppDataSrv.display.advancedSearch = helperSrv.getParam('advancedSearch', AppDataSrv.config.app.advancedSearch);
                 AppDataSrv.display.footer = helperSrv.getParam('footer', AppDataSrv.config.app.footer);
                 AppDataSrv.lang = localesSrv.getLanguage(AppDataSrv.config.app.lang);
                 AppDataSrv.view = helperSrv.getParam('view', AppDataSrv.config.app.view);
@@ -90,23 +91,11 @@ function runApp(configSrv, cswSrv, AppDataSrv, BroadcastSrv, localesSrv, viewsSr
             });
     }
 
-
-	// Get list of search constraints
-	/*
-    function getConstraintsSearchList(lang) {
-        constraintsSrv.getFile(file)
-            .then(function(data) {
-                AppDataSrv.constraints = data;
-                AppDataSrv.constraint = Object.keys(data)[0];
-            });
-    }
-    */
-
     function getCswUrlList(csw_url_file) {
         cswSrv.getCswList(csw_url_file)
             .then(function(data) {
                 AppDataSrv.csw_list = data;
-                cswSrv.getCswJson(false);
+                cswSrv.getRecords();
 				BroadcastSrv.send('configLoaded');
             });
     }

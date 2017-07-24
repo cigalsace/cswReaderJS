@@ -57,14 +57,14 @@
                             <strong>Langue des données:</strong>
                         </p>
                         <ul>
-                            <div ng-if="vm.data.metadata.dataLanguages">
-                                <div ng-repeat="dataLanguage in vm.data.metadata.dataLanguages track by $index">
+                            <div ng-if="vm.data.metadata.dataLanguages | notEmpty:'checkArray'">
+                                <div ng-repeat="dataLanguage in vm.data.metadata.dataLanguages | notEmpty:'array' track by $index">
                                     <li class="">
                                         {{dataLanguage | translateCode:'MD_LanguageCode'}}
                                     </li>
                                 </div>
                             </div>
-                            <div ng-if="!vm.data.metadata.dataLanguages">
+                            <div ng-if="!(vm.data.metadata.dataLanguages | notEmpty:'checkArray')">
                                 <li class="">Non précisé</li>
                             </div>
                         </ul>
@@ -75,8 +75,8 @@
                             <strong>Format de diffusion:</strong>
                         </p>
                         <ul>
-                            <div ng-if="vm.data.metadata.dataDistributionFormats">
-                                <div ng-repeat="dataDistributionFormat in vm.data.metadata.dataDistributionFormats track by $index">
+                            <div ng-if="vm.data.metadata.dataDistributionFormats | notEmpty:'checkArrayObject'">
+                                <div ng-repeat="dataDistributionFormat in vm.data.metadata.dataDistributionFormats | notEmpty:'arrayObject' track by $index">
                                     <li class="">
                                         {{dataDistributionFormat.formatName}}
                                         <span ng-if="dataDistributionFormat.formatVersion">
@@ -89,7 +89,7 @@
                                     </li>
                                 </div>
                             </div>
-                            <div ng-if="!vm.data.metadata.dataDistributionFormats">
+                            <div ng-if="!(vm.data.metadata.dataDistributionFormats | notEmpty:'checkArrayObject')">
                                 <li class="">Non précisé</li>
                             </div>
                         </ul>
@@ -112,14 +112,14 @@
                             <strong>Limite technique d'usage:</strong>
                         </p>
                         <ul>
-                            <div ng-if="vm.data.metadata.dataUseLimitations">
-                                <div ng-repeat="dataUseLimitation in vm.data.metadata.dataUseLimitations track by $index">
+                            <div ng-if="vm.data.metadata.dataUseLimitations | notEmpty:'checkArray'">
+                                <div ng-repeat="dataUseLimitation in vm.data.metadata.dataUseLimitations | notEmpty:'array' track by $index">
                                     <li class="pre">
                                         {{dataUseLimitation}}
                                     </li>
                                 </div>
                             </div>
-                            <div ng-if="!vm.data.metadata.dataUseLimitations">
+                            <div ng-if="!(vm.data.metadata.dataUseLimitations | notEmpty:'checkArray')">
                                 <li class="">Aucune limite d'usage définie.</li>
                             </div>
                         </ul>
@@ -137,56 +137,56 @@
                         <label>Contraintes d'accès Inspire:</label>
                         <br/>
                         <ul>
-                            <div ng-if="vm.data.metadata.dataLegalAccessInspireConstraints">
-                                <div ng-repeat="dataLegalAccessInspireConstraint in vm.data.metadata.dataLegalAccessInspireConstraints track by $index">
+                            <div ng-if="vm.data.metadata.dataLegalAccessInspireConstraints | notEmpty:'checkArray'">
+                                <div ng-repeat="dataLegalAccessInspireConstraint in vm.data.metadata.dataLegalAccessInspireConstraints | notEmpty:'array' track by $index">
                                     <li class="pre">
                                         {{dataLegalAccessInspireConstraint | translateCode:'MD_InspireRestrictionCode'}}
                                     </li>
                                 </div>
                             </div>
-                            <div ng-if="!vm.data.metadata.dataLegalAccessInspireConstraints">
+                            <div ng-if="!(vm.data.metadata.dataLegalAccessInspireConstraints | notEmpty:'checkArray')">
                                 <li class="pre">Aucune contrainte d'accès Inspire définie.</li>
                             </div>
                         </ul>
                         <label>Autres contraintes d'accès:</label>
                         <br/>
                         <ul>
-                            <div ng-if="vm.data.metadata.dataLegalAccessConstraints">
-                                <div ng-repeat="dataLegalAccessConstraint in vm.data.metadata.dataLegalAccessConstraints track by $index">
+                            <div ng-if="vm.data.metadata.dataLegalAccessConstraints | notEmpty:'checkArray'">
+                                <div ng-repeat="dataLegalAccessConstraint in vm.data.metadata.dataLegalAccessConstraints | notEmpty:'array' track by $index">
                                     <li class="pre">
                                         {{dataLegalAccessConstraint | translateCode:'MD_RestrictionCode'}}
                                     </li>
                                 </div>
                             </div>
-                            <div ng-if="vm.data.metadata.dataLegalAccessOtherConstraints">
-                                <div ng-repeat="dataLegalAccessOtherConstraint in vm.data.metadata.dataLegalAccessOtherConstraints track by $index">
+                            <div ng-if="vm.data.metadata.dataLegalAccessOtherConstraints | notEmpty:'checkArray'">
+                                <div ng-repeat="dataLegalAccessOtherConstraint in vm.data.metadata.dataLegalAccessOtherConstraints | notEmpty:'array' track by $index">
                                     <li class="pre" ng-if="dataLegalAccessOtherConstraint">
                                         {{dataLegalAccessOtherConstraint}}
                                     </li>
                                 </div>
                             </div>
-                            <div ng-if="!vm.data.metadata.dataLegalAccessConstraints && !vm.data.metadata.dataLegalAccessOtherConstraints">
+                            <div ng-if="!(vm.data.metadata.dataLegalAccessConstraints | notEmpty:'checkArray') && !(vm.data.metadata.dataLegalAccessOtherConstraints | notEmpty:'checkArray')">
                                 <li class="pre">Aucune contrainte d'accès définie.</li>
                             </div>
                         </ul>
                         <label>Contraintes légales d'usage:</label>
                         <br/>
                         <ul>
-                            <div ng-if="vm.data.metadata.dataLegalUseConstraints">
-                                <div ng-repeat="dataLegalUseConstraint in vm.data.metadata.dataLegalUseConstraints track by $index">
+                            <div ng-if="vm.data.metadata.dataLegalUseConstraints | notEmpty:'checkArray'">
+                                <div ng-repeat="dataLegalUseConstraint in vm.data.metadata.dataLegalUseConstraints | notEmpty:'array' track by $index">
                                     <li class="pre">
                                         {{dataLegalUseConstraint | translateCode:'MD_RestrictionCode'}}
                                     </li>
                                 </div>
                             </div>
-                            <div ng-if="vm.data.metadata.dataLegalUseLimitations">
-                                <div ng-repeat="dataLegalUseLimitation in vm.data.metadata.dataLegalUseLimitations track by $index">
+                            <div ng-if="vm.data.metadata.dataLegalUseLimitations | notEmpty:'checkArray'">
+                                <div ng-repeat="dataLegalUseLimitation in vm.data.metadata.dataLegalUseLimitations | notEmpty:'array' track by $index">
                                     <li class="pre">
                                         {{dataLegalUseLimitation}}
                                     </li>
                                 </div>
                             </div>
-                            <div ng-if="!vm.data.metadata.dataLegalUseLimitations && !vm.data.metadata.dataLegalUseConstraints">
+                            <div ng-if="!(vm.data.metadata.dataLegalUseLimitations | notEmpty:'checkArray') && !(vm.data.metadata.dataLegalUseConstraints | notEmpty:'checkArray')">
                                 <li class="pre">Aucune limite légale d'usage définie.</li>
                             </div>
                         </ul>
@@ -195,8 +195,8 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div ng-if="vm.data.metadata.dataPointOfContacts">
-                        <div ng-repeat="dataPointOfContact in vm.data.metadata.dataPointOfContacts track by $index">
+                    <div ng-if="vm.data.metadata.dataPointOfContacts | notEmpty:'checkArrayObject'">
+                        <div ng-repeat="dataPointOfContact in vm.data.metadata.dataPointOfContacts | notEmpty:'arrayObject' track by $index">
                             <div ng-if="dataPointOfContact.role">
                                 <p>
                                     <strong>{{dataPointOfContact.role | translateCode:'CI_RoleCode'}}
@@ -263,8 +263,8 @@
                     </div>
                 </div>
 
-                <div ng-if="vm.data.metadata.mdContacts">
-                    <div ng-repeat="mdContact in vm.data.metadata.mdContacts track by $index">
+                <div ng-if="vm.data.metadata.mdContacts | notEmpty:'checkArrayObject'">
+                    <div ng-repeat="mdContact in vm.data.metadata.mdContacts | notEmpty:'arrayObject' track by $index">
                         <div ng-if="mdContact.role">
                             <p>
                                 <strong>{{mdContact.role | translateCode:'CI_RoleCode'}}
@@ -348,8 +348,8 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <p class="">
-                <span ng-if="vm.data.metadata.dataGeographicExtents">
-                    <span ng-repeat="dataGeographicExtent in vm.data.metadata.dataGeographicExtents track by $index">
+                <span ng-if="vm.data.metadata.dataGeographicExtents | notEmpty:'checkArrayObject'">
+                    <span ng-repeat="dataGeographicExtent in vm.data.metadata.dataGeographicExtents | notEmpty:'arrayObject' track by $index">
                         <a class="btn btn-xs btn-info">
                             <i class="glyphicon glyphicon-screenshot" title="Couverture territoriale"></i>
                         </a>
@@ -367,7 +367,7 @@
                         <br/>
                     </span>
                 </span>
-                <span ng-if="!vm.data.metadata.dataGeographicExtents">
+                <span ng-if="!(vm.data.metadata.dataGeographicExtents | notEmpty:'checkArrayObject')">
                     <a class="btn btn-xs btn-info">
                         <i class="glyphicon glyphicon-screenshot" title="Couverture territoriale"></i>
                     </a>
@@ -387,12 +387,12 @@
                     mètre(s)
                 </span>
                 <span ng-if="!vm.data.metadata.dataScaleDenominator && !vm.data.metadata.dataScaleDistance">
-                    Echelle et résolution non définies.
+                    Echelle et résolution non précisée.
                 </span>
             </p>
             <p class="">
-                <span ng-if="vm.data.metadata.dataReferenceSystems">
-                    <span ng-repeat="dataReferenceSystem in vm.data.metadata.dataReferenceSystems track by $index">
+                <span ng-if="vm.data.metadata.dataReferenceSystems | notEmpty:'checkArrayObject'">
+                    <span ng-repeat="dataReferenceSystem in vm.data.metadata.dataReferenceSystems | notEmpty:'arrayObject' track by $index">
                         <a class="btn btn-xs btn-info">
                             <i class="glyphicon glyphicon-globe" title="Système de projection"></i>
                         </a>
@@ -403,7 +403,7 @@
                         <br/>
                     </span>
                 </span>
-                <span ng-if="!vm.data.metadata.dataReferenceSystems">
+                <span ng-if="!(vm.data.metadata.dataReferenceSystems | notEmpty:'checkArrayObject')">
                     <a class="btn btn-xs btn-info">
                         <i class="glyphicon glyphicon-globe" title="Système de projection"></i>
                     </a>
@@ -413,18 +413,18 @@
 
             <hr/>
             <div id="keywords" class="">
-                <span ng-if="vm.data.metadata.dataTopicCategories">
-                    <span ng-repeat="dataTopicCategory in vm.data.metadata.dataTopicCategories track by $index">
+                <span ng-if="vm.data.metadata.dataTopicCategories | notEmpty:'checkArray'">
+                    <span ng-repeat="dataTopicCategory in vm.data.metadata.dataTopicCategories | notEmpty:'array' track by $index">
                         <span title="{{dataTopicCategory}}" class="label label-warning">{{dataTopicCategory | translateCode:'MD_TopicCategoryCode'}}</span>
                     </span>
                 </span>
-                <span ng-if="vm.data.metadata.dataInspireKeywords">
-                    <span ng-repeat="dataInspireKeyword in vm.data.metadata.dataInspireKeywords track by $index">
+                <span ng-if="vm.data.metadata.dataInspireKeywords | notEmpty:'checkArray'">
+                    <span ng-repeat="dataInspireKeyword in vm.data.metadata.dataInspireKeywords | notEmpty:'array' track by $index">
                         <span title="{{dataInspireKeyword}}" class="label label-primary">{{dataInspireKeyword | translateCode:'MD_InspireTopicCategoryCode'}}</span>
                     </span>
                 </span>
-                <span ng-if="vm.data.metadata.dataKeywords">
-                    <span ng-repeat="dataKeywords in vm.data.metadata.dataKeywords track by $index">
+                <span ng-if="vm.data.metadata.dataKeywords | notEmpty:'checkArrayObject'">
+                    <span ng-repeat="dataKeywords in vm.data.metadata.dataKeywords | notEmpty:'arrayObject' track by $index">
                         <span ng-repeat="keyword in dataKeywords.keywords | string2array">
                             <span title="{{dataKeywords.keywordType}} - {{dataKeywords.thesaurusName}}" class="label label-primary">{{keyword}}</span>
                         </span>
@@ -434,14 +434,26 @@
                 <div class="">
                     <strong>Ressources associés:</strong>
                     <ul>
-                        <span ng-if="vm.data.metadata.dataLinkages">
-                            <span ng-repeat="dataLinkage in vm.data.metadata.dataLinkages track by $index">
+                        <span ng-if="vm.data.metadata.dataLinkages | notEmpty:'checkArrayObject'">
+                            <span ng-repeat="dataLinkage in vm.data.metadata.dataLinkages | notEmpty:'arrayObject' track by $index">
                                 <li>
-                                    <a href="{{dataLinkage.url}}" target="_blanck" title="{{dataLinkage.url}}">{{dataLinkage.description}}</a>
+                                    <span ng-if="dataLinkage | isWxs">
+                                        <a ng-href="{{dataLinkage | getCapabilities}}" target="_blanck" title="{{dataLinkage | getCapabilities}}">{{dataLinkage.description}}</a>
+                                        <br />
+                                        <span ng-if="dataLinkage | isWxs:wfs">
+                                            <!-- <span ng-repeat="wfs_url in dataLinkage.wfs_url track by $index">
+                                                <a title="Télécharger les données en {{ wfs_url.format }}" class="label label-info" ng-href="{{wfs_url.url}}" target="_blank">{{wfs_url.format}}</a>
+                                            </span> -->
+                                            <span wfs-download linkage="dataLinkage"></span>
+                                        </span>
+                                    </span>
+                                    <span ng-if="!(dataLinkage | isWxs)">
+                                        <a ng-href="{{dataLinkage.url}}" target="_blanck" title="{{dataLinkage.url}}">{{dataLinkage.description}}</a>
+                                    </span>
                                 </li>
                             </span>
                         </span>
-                        <span ng-if="!vm.data.metadata.dataLinkages">
+                        <span ng-if="!(vm.data.metadata.dataLinkages | notEmpty:'checkArrayObject')">
                             <li>Aucune ressource liée disponible.</li>
                         </span>
                     </ul>

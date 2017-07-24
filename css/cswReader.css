@@ -46,7 +46,8 @@ hr {
     float:left;
      width:100%;
 }
-/* centered columns styles - use for button "Plus de fiches..." bottom of page */.row-centered {
+/* centered columns styles - use for button "Plus de fiches..." bottom of page */
+.row-centered {
     text-align:center;
 }
 .col-centered {

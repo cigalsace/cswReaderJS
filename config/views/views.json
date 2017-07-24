@@ -1,5 +1,5 @@
 {
-    "description": "List of vews",
+    "description": "List of views",
     "list": {
         "grid": {
             "path": "config/views/grid/tpl-grid.html",

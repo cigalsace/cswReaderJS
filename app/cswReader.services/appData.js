@@ -15,7 +15,7 @@ function AppDataSrv() {
         pageLoaded: true,
         disableInfiniteScroll: false,
         config: {},
-        userLanguage: '',
+        lang: '',
         locales: {},
         models: {},
         model: 1,

@@ -1,0 +1,3 @@
+<span ng-repeat="wfs_url in linkage.wfs_url track by $index">
+    <a title="Télécharger les données en {{ wfs_url.format }}" class="label label-info" ng-href="{{wfs_url.url}}" target="_blank">{{wfs_url.format}}</a>
+</span>

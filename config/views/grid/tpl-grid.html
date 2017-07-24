@@ -2,24 +2,24 @@
 <div class="container-fluid">
     <div infinite-scroll="vm.getMore(true)" infinite-scroll-disabled="!vm.data.pageLoaded" infinite-scroll-distance="1">
         <div style="min-height:350px" class="md_grid_item col-lg-2 col-md-3 col-sm-6 col-xs-12 clearfix" ng-repeat="md in vm.data.csw_json.md track by $index">
-            <!--<a ng-if="md.MD_URL != ''" href="" style="color:#444; font-size:1.1em; height:5.7em; display:block;" ng-click="vm.openModalMd(md)" popover-trigger="'mouseenter'" uib-popover-template="'config/views/popover-md.html'" popover-placement="bottom">-->
-            <a style="color:#444; font-size:1.1em; height:5.7em; display:block;" ng-click="vm.viewMd(md.MD_FileIdentifier)" popover-trigger="'mouseenter'" uib-popover-template="'config/views/grid/popover-md.html'" popover-placement="bottom">
-                <span class="">
+            <!--<a ng-if="md.MD_URL != ''" href="" style="color:#444444; font-size:1.1em; height:5.7em; display:block;" ng-click="vm.openModalMd(md)" popover-trigger="'mouseenter'" uib-popover-template="'config/views/popover-md.html'" popover-placement="bottom">-->
+            <a style="color:#444444; font-size:1.1em; height:5.7em; display:block;" ng-click="vm.viewMd(md.MD_FileIdentifier)">
+                <span popover-trigger="'mouseenter'" uib-popover-template="'config/views/grid/popover-md.html'" popover-placement="bottom">
                     <strong>{{md.Data_shortTitle}}</strong>
                 </span>
-            </a>
-            <div class="thumbnail">
-                <a ng-if="md.mdReader_url != ''" href="{{md.Data_BrowseGraphics.Data_BrowseGraphic_Name}}" target="_blank">
+                <div class="thumbnail">
+                    <!-- <a ng-if="md.mdReader_url != ''" href="{{md.Data_BrowseGraphics.Data_BrowseGraphic_Name}}" target="_blank"> -->
                     <div class="image" style="height:200px;">
-                        <img class="img-rounded img-responsive" ng-src="{{md.Data_BrowseGraphics.Data_BrowseGraphic_Name}}" alt="" style=""/>
+                        <img class="img-rounded img-responsive" ng-src="{{md.Data_BrowseGraphics.Data_BrowseGraphic_Name}}" alt="" style="" />
                     </div>
                     <div class="labels caption pull-right">
                         <span title="{{vm.data.ui.view.kw_od_title}}" class="label label-success pull-right" ng-if="md.Data_OD != ''">{{vm.data.ui.view.kw_od}}</span>
                         <span title="{{vm.data.ui.view.kw_wfs_title}}" class="label label-warning pull-right" ng-if="md.Data_WFS != ''">{{vm.data.ui.view.kw_wfs}}</span>
                         <span title="{{vm.data.ui.view.kw_wms_title}}" class="label label-primary pull-right" ng-if="md.Data_WMS != ''">{{vm.data.ui.view.kw_wms}}</span>
                     </div>
-                </a>
-            </div>
+                    <!-- </a> -->
+                </div>
+            </a>
         </div>
         <!-- <div ng-show="vm.busy">Loading data...</div> -->
     </div>

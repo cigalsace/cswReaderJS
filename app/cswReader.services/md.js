@@ -50,7 +50,7 @@ function mdSrv($http, AppDataSrv, mdjsSrv, viewsSrv) {
             .get(url)
             .then(function(xml) {
                 // data = xml.data.replace(/<\/?csw:[^>]+>/ig, '');
-                console.log(xml.data);
+                // console.log(xml.data);
                 mdjsSrv.toJson(xml.data);
             });
     }

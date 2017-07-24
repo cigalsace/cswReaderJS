@@ -2,7 +2,7 @@
 angular.module('cswReader.filters')
     .filter('mdUrl', mdUrl);
 
-string2array.$inject = ['AppDataSrv', 'cswSrv'];
+mdUrl.$inject = ['AppDataSrv', 'cswSrv'];
 
 function mdUrl(AppDataSrv, cswSrv) {
     return function(md) {
