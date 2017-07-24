@@ -8,6 +8,7 @@ $url = '';
 if (isset($_GET['url'])) {
     $url = $_GET['url'];
 }
+// echo $url;
 
 // Create a stream
 $opts = array(

@@ -65,8 +65,6 @@ function cswSrv($http, $location, AppDataSrv) {
 			} else {
 				url = csw_url+'?';
 			}
-            
-            // console.log(csw_config.maxrecords, csw_config.startposition)
 
 			// Add paramters from csw_config to url
 			if (csw_config.elementsetname) {

@@ -17,7 +17,7 @@ cswReader permet :
 
 ## Se connecter à cswReader
 
-cswReader ne nécessite pas d'authentification pour fonctionner. Il vous suffit de vous rendre à l'adresse https://www.cigalsace.org/tools/cswreader/stable pour accéder à l'application.
+cswReader ne nécessite pas d'authentification pour fonctionner. Il vous suffit de vous rendre à l'adresse https://www.cigalsace.org/tools/cswreader pour accéder à l'application.
 
 
 ## Description de l'interface utilisateur
