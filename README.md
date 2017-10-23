@@ -1,6 +1,6 @@
-# cswreader
+# cswReaderJS
 
-cswreader est un outil simple et ouvert de consultation de catalogues de métadonnées conformes au format ISO 19139 / INSPIRE (flux CSW).
+cswReaderJS est un outil simple et ouvert de consultation de catalogues de métadonnées conformes au format ISO 19139 / INSPIRE (flux CSW).
 
 La présente documentation est adressée aux personnes souhaitant installer cswReader et contribuer au projet.
 
@@ -143,3 +143,53 @@ Les choix sont réalisés afin que:
 - [moment](http://momentjs.com/) - version 2.12.0
 - [vkbeautify](https://github.com/vkiryukhin/vkBeautify) - version 0.99.0 beta
 - [bottle](http://bottlepy.org/docs/0.12/) - version 0.12.8 (serveur Python embarqué)
+
+
+## Versions
+
+### dev
+
+- Ajout de la possibilité d'afficher une vue en fonction d'un mot-clé:
+    - `observatoire`: `views-obs`
+    - `carte`: `views-map`
+    - sinon: `views-data`
+- Renommage des variables de la lib `cswjs` et adaptation des vues grid et list
+- Adapatation de md.js pour rendre l'affichage d'une vue en fonction d'un mot-clé paramétrable (cf. config.json, variable 'keywords_views')
+- Regroupement de l'ensemble des fichiers de configuration dans un seul fichier `config.json`: csw-url.json, locales.json, views.json et help.json. Supression des fichiers correspondants et du paramètre d'URL csw_list.
+
+
+### 0.3.0
+
+- Ajout d'un getCapabilities au chargement du csw pour afficher le informations du flux au survol du lien en bas de page à gauche.
+- Ajout d'un getDomains au chargement du csw pour pemettre à terme d'envisager l'utilisation de recherches à facettes
+- Ajout d'un lien de téléchargement direct des données sir la fiche possède un lien direct vers la ressource en WFS
+- Correction de la génération des permaliens
+
+
+## TODO
+
+- [ ] Mettre à jour les librairies:
+    - jquery
+    - bootstrap
+    - angular js
+    - ui-bootstrap
+    - showdown
+    - moment
+    - vkbeautify
+- [ ] Renommer AppDataSrv en AppService (dans le module app.module.js et app.services.js)
+- [ ] Utiliser angular-ui-router
+- [ ] Utiliser angular-loading-bar (?)
+- [ ] Restructurer l'application sous forme de composants:
+    - [ ] Créer un composant 'loadWfs'
+    - [ ] Créer un composant 'changeLocale'
+    - [ ] Créer un composant 'changeCsw'
+    - [ ] Créer un composant 'changeView'
+    - [ ] Créer un composant 'getPermalink'
+    - [ ] Créer un composant 'cswCatalog (grid/list)'
+    - [ ] Créer un composant 'mdCard (grid/list)'
+    - [ ] Créer un composant 'mdView (view)'
+    - [ ] Créer un composant 'dialog'
+    - [ ] Créer un composant 'header'
+    - [ ] Créer un composant 'footer'
+    - [ ] Créer un composant 'app'
+- [ ] Gérer le lien enter MDS et MDD pour le téléchargement des données via flux WFS

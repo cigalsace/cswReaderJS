@@ -1,0 +1,62 @@
+<div ng-if="$ctrl.contacts | notEmpty:'checkArrayObject'">
+    <div ng-repeat="contact in $ctrl.contacts | notEmpty:'arrayObject' track by $index">
+        <div ng-if="contact.role">
+            <p>
+                <strong>{{contact.role | translateCode:'CI_RoleCode'}} {{$ctrl.locale.data}}:</strong>
+            </p>
+        </div>
+        <div ng-if="!contact.role">
+            <p>
+                <strong>{{$ctrl.locale.ui.contact}} des {{$ctrl.locale[$ctrl.contactType]}}</strong>
+            </p>
+        </div>
+        <div class="panel panel-default" style="margin-left: 20px;">
+            <address class="panel-body">
+                <div class="col-md-2">
+                    <div ng-if="contact.logoUrl">
+                        <img class="logo img-thumbnail" ng-src="{{contact.logoUrl}}" alt="{{data_contact.logoDescription}}" title="{{contact.logoDescription}}" />
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div ng-if="contact.individualName">
+                        <div>{{contact.individualName}}</div>
+                    </div>
+                    <div ng-if="contact.positionName">
+                        <div>{{contact.positionName}}</div>
+                    </div>
+                    <div ng-if="contact.organisationName">
+                        <div>
+                            <strong>{{contact.organisationName}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div ng-if="contact.city">
+                        <div>
+                            <span ng-bind-html="contact.deliveryPoints | array2string | nl2br:true"></span>
+                            <br />{{contact.postalCode}} {{contact.city}}
+                        </div>
+                    </div>
+                    <div ng-if="contact.phoneVoices | notEmpty:checkArray">
+                        <!-- <div>Tél.: {{contact.phoneVoices}}</div> -->
+                        <!-- TODO: spliter les tél. dans une directive -->
+                        <div>Tél.:
+                            <span ng-bind-html="contact.phoneVoices | array2string | nl2br:true"></span>
+                        </div>
+                    </div>
+                    <div ng-if="contact.email">
+                        <div>
+                            <!-- TODO: spliter les emails dans une directive -->
+                            <strong>Email:
+                                <span>{{contact.email}}</span>
+                            </strong>
+                        </div>
+                    </div>
+                    <!--
+                    <div ng-if="contact.role"><div>Rôle: {{contact.role}}</div></div>
+                    -->
+                </div>
+            </address>
+        </div>
+    </div>
+</div>

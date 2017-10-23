@@ -1,0 +1,15 @@
+<!-- tpl-grid -->
+<div class="container-fluid">
+    <div infinite-scroll="$ctrl.getMoreRecords()" infinite-scroll-disabled="$ctrl.catalog.data.loading.value != 0 || $ctrl.catalog.data.disableInfiniteScroll == true" infinite-scroll-distance="3">
+        <!-- <div infinite-scroll="$ctrl.getMoreRecords()" infinite-scroll-distance="1"> -->
+        <div style="min-height:350px" class="md_grid_item col-lg-2 col-md-3 col-sm-6 col-xs-12 clearfix" ng-repeat="md in $ctrl.catalog.data.csw.records track by $index">
+            <csw-card md="md" on-click="$ctrl.viewMd(md.mdFileIdentifier, view)" lang="{
+                    kw_od: $ctrl.catalog.data.locale.ui.kw_od,
+                    kw_wfs: $ctrl.catalog.data.locale.ui.kw_wfs,
+                    kw_wms: $ctrl.catalog.data.locale.ui.kw_wms,
+                    abstract: $ctrl.catalog.data.locale.ui.abstract,
+                    keywords: $ctrl.catalog.data.locale.ui.keywords
+                }"></csw-card>
+        </div>
+    </div>
+</div>

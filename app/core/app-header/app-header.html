@@ -1,0 +1,69 @@
+<nav id="header" class="navbar navbar-default navbar-fixed-top" ng-show=":: $ctrl.config.app.header">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            <a class="navbar-brand" ui-sref="#/app">
+                <span class="glyphicon glyphicon-globe"></span> {{:: $ctrl.config.app.title}} <span ng-hide="$ctrl.params.debug != 1">[DEV MODE]</span>
+                <!-- {{$ctrl.params.module}} -->
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-menu">
+            <div ng-hide="$ctrl.params.module != 'catalog'">
+                <csw-search constraints-capabilities-values="$ctrl.config.catalog.csw.capabilities.constraintsValues" constraints-values="$ctrl.locale.catalog.constraints_type" constraint-type="$ctrl.config.catalog.csw.constraint_type" placeholder-search="$ctrl.locale.app.ui.placeholder_search"
+                    constraint="$ctrl.config.catalog.csw.constraint" on-search="$ctrl.onCswSearch(constraint_type, constraint_search)"></csw-search>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li uib-tooltip="Accueil" tooltip-trigger="mouseenter" tooltip-placement="bottom">
+                    <a role="button" ui-sref="page({page: 'home', header: $ctrl.params.app.header, footer: $ctrl.params.app.footer, lang: $ctrl.params.app.lang, config: $ctrl.config.file})">
+                        <span class="glyphicon glyphicon-home">
+                            <span class="visible-xs-inline">
+                                Accueil
+                            </span>
+                        </span>
+                    </a>
+                </li>
+                <li uib-tooltip="{{$ctrl.locale.app.ui.bt_help}}" tooltip-trigger="mouseenter" tooltip-placement="bottom">
+                    <a role="button">
+                        <modal-doc-button format="button" text="Documentation" title="Documentation" content-url="$ctrl.locale.pages['help']">
+                        </modal-doc-button>
+                    </a>
+                </li>
+                <li ng-show="$ctrl.config.app.advancedSearch" uib-dropdown uib-tooltip="{{$ctrl.locale.app.ui.bt_advancedsearch}}" tooltip-trigger="mouseenter" tooltip-placement="bottom" ng-click="$event.stopPropagation()">
+                    <a type="button" class="glyphicon glyphicon-search" uib-dropdown-toggle id="advanced-search-dropdown">
+                        <span class="visible-xs-inline">
+                            {{$ctrl.locale.app.ui.bt_advancedsearch}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="advanced-search-dropdown">
+                        <li class="dropdown-header">search</li>
+                        <li role="separator" class="divider"></li>
+                        <li ng-repeat="topicCategory in $ctrl.config.catalog.domains.TopicCategory track by $index">
+                            {{topicCategory | translateCode:'MD_TopicCategoryCode'}}
+                        </li>
+                    </ul>
+                </li>
+                <li uib-tooltip="{{$ctrl.locale.app.ui.tooltip_changeview}}" tooltip-trigger="mouseenter" tooltip-placement="bottom" ng-hide="$ctrl.params.module != 'catalog'">
+                    <a role="button">
+                        <change-view views="$ctrl.cswViews" view="$ctrl.params.view" on-change="$ctrl.onChangeCswView(view)"></change-view>
+                    </a>
+                </li>
+                <li uib-tooltip="{{$ctrl.locale.app.ui.tooltip_changeview}}" tooltip-trigger="mouseenter" tooltip-placement="bottom" ng-hide="$ctrl.params.module != 'mdview' || $ctrl.params.debug != 1">
+                    <a role="button">
+                        <change-view views="$ctrl.mdViews" view="$ctrl.params.view" on-change="$ctrl.onChangeMdView(view)"></change-view>
+                    </a>
+                </li>
+                <li uib-tooltip="{{$ctrl.locale.app.ui.tooltip_changecat}}" tooltip-trigger="mouseenter" tooltip-placement="bottom" ng-hide="$ctrl.params.module != 'catalog'">
+                    <a role="button">
+                        <change-csw uib-dropdown ng-click="$event.stopPropagation()" button="{text: $ctrl.locale.app.ui.bt_cat, icon: 'glyphicon-globe'}" csw-list="$ctrl.config.catalog.csw_list" placeholder="$ctrl.locale.app.ui.placeholder_csw_url" csw-url="$ctrl.params.csw"
+                            on-change="$ctrl.onChangeCsw(cswUrl)"></change-csw>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

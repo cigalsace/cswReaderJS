@@ -1,0 +1,12 @@
+<!-- tpl-list -->
+<div class="container-fluid">
+    <div infinite-scroll="$ctrl.getMoreRecords()" infinite-scroll-disabled="$ctrl.catalog.data.loading.value != 0" infinite-scroll-distance="3">
+        <div class="row md_list_item" ng-repeat="md in $ctrl.catalog.data.csw.records track by $index">
+            <csw-card format="list" md="md" on-click="$ctrl.viewMd(mdFileIdentifier, view)" lang="{
+                    kw_od: $ctrl.catalog.data.locale.ui.kw_od,
+                    kw_wfs: $ctrl.catalog.data.locale.ui.kw_wfs,
+                    kw_wms: $ctrl.catalog.data.locale.ui.kw_wms,
+                }"></csw-card>
+        </div>
+    </div>
+</div>

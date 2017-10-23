@@ -2,47 +2,133 @@
     "app": {
         "name": "cswReader",
         "title": "cswReader",
-        "version": "0.2.1",
-        "copyrights": "(c) CIGAL 2016",
+        "version": "0.4.7",
+        "copyrights": "(c) CIGAL / GéoGrandEst 2017",
         "copyrights_url": "https://www.cigalsace.org",
+        "proxy": "php/index.php?url=",
         "lang": "fr",
-        "proxy_server_url": "php/index.php?url=",
-        "views_file": "config/views/views.json",
-        "locales_path": "config/locales/",
-        "constraint_search_file": "config/constraints_search.json",
-        "csw_url_file": "config/csw_url.json",
-        "view": "grid",
+        "module": "catalog",
+        "home": "home",
         "header": 1,
         "footer": 1,
-        "advancedSearch": 0
+        "advancedSearch": 0,
+        "locales": {
+            "fr": {
+                "locale": "config/app/locales/fr/locales.json",
+                "pages": "config/app/locales/fr/pages.json"
+            },
+            "en": {
+                "locale": "config/app/locales/en/locales.json",
+                "pages": "config/app/locales/en/pages.json"
+            },
+            "de": {
+                "locale": "config/app/locales/de/locales.json",
+                "pages": "config/app/locales/de/pages.json"
+            }
+        }
     },
-    "csw": {
-        "url": "",
-        "elementsetname": "full",
-        "maxrecords": "20",
-        "startposition": "1",
-        "version": "2.0.2",
-        "service": "CSW",
-        "request": "GetRecords",
-        "constraintlanguage": "CQL_TEXT",
-        "postencoding": "XML",
-        "resulttype": "results",
-        "outputschema": "http://www.isotc211.org/2005/gmd",
-        "typenames": "gmd:MD_Metadata",
-        "constraint_language_version": "1.0.0",
-        "constraint_type": "AnyText",
-        "constraint": ""
+    "catalog": {
+        "csw": {
+            "url": "",
+            "startposition": "1",
+            "maxrecords": "12",
+            "constraint_type": "AnyText",
+            "constraint": ""
+        },
+        "csw_list": [{
+            "id": "0",
+            "title": "CSW CIGAL - Géocatalogue",
+            "description": "Flux CSW du serveur CIGAL contenant les fiches pour le Géocatalogue national.",
+            "url": "https://www.cigalsace.org/geonetwork/srv/fre/csw-geocatalogue"
+        }, {
+            "id": "1",
+            "title": "CSW CIGAL - Général",
+            "description": "Flux CSW du serveur CIGAL contenant l'ensemble des fiches de métadonnées.",
+            "url": "https://www.cigalsace.org/geonetwork/srv/fre/csw"
+        }, {
+            "id": "2",
+            "title": "CSW Géocatalogue national",
+            "description": "Flux CSW du Géocatalogue national.",
+            "url": "https://www.geocatalogue.fr/api-public/servicesRest"
+        }, {
+            "id": "3",
+            "title": "Fiches du CG67",
+            "description": "Flux CSW du Conseil Général du Bas-Rhin.",
+            "url": "https://www.cigalsace.org/geonetwork/srv/fre/csw-cg67"
+        }, {
+            "id": "4",
+            "title": "Liste des observatoires",
+            "description": "Flux CSW produit avec \"cswServer\" à partir d'une liste de fichier XML.",
+            "url": "http://www.geograndest.net/cswserver/0.7.4/csw/obs.php"
+        }],
+        "locales": {
+            "fr": "config/catalog/locales.fr.json",
+            "en": "config/catalog/locales.en.json",
+            "de": "config/catalog/locales.de.json"
+        },
+        "views": {
+            "grid": {
+                "path": "config/catalog/grid/csw-catalog-grid.html",
+                "card_path": "config/catalog/grid/csw-card-grid.html",
+                "icon": "glyphicon-th",
+                "values": {
+                    "fr": "Grille",
+                    "en": "Grid",
+                    "de": "Grid"
+                }
+            },
+            "list": {
+                "path": "config/catalog/list/csw-catalog-list.html",
+                "card_path": "config/catalog/list/csw-card-list.html",
+                "icon": "glyphicon-th-list",
+                "values": {
+                    "fr": "Liste",
+                    "en": "List",
+                    "de": "List"
+                }
+            }
+        }
     },
-    "md": {
-        "url": "",
-        "request": "GetRecordById",
-        "service": "CSW",
-        "version": "2.0.2",
-        "elementsetname": "full",
-        "postencoding": "XML",
-        "resulttype": "results",
-        "outputschema": "http://www.isotc211.org/2005/gmd",
-        "typenames": "gmd:MD_Metadata",
-        "id": ""
+    "mdview": {
+        "csw": {
+            "url": "",
+            "id": ""
+        },
+        "locales": {
+            "fr": "config/mdview/locales.fr.json",
+            "en": "config/mdview/locales.en.json",
+            "de": "config/mdview/locales.de.json"
+        },
+        "views": {
+            "data": {
+                "path": "config/mdview/md-view-data.html",
+                "icon": "glyphicon-retweet",
+                "values": {
+                    "fr": "Vue de la fiche MD",
+                    "en": "MD view",
+                    "de": "MD view"
+                }
+            },
+            "map": {
+                "path": "config/mdview/md-view-map.html",
+                "icon": "glyphicon-retweet",
+                "keywords": ["carte", "karte", "map"],
+                "values": {
+                    "fr": "Vue de la fiche de métadonnées de carte",
+                    "en": "Map MD view",
+                    "de": "Map MD view"
+                }
+            },
+            "obs": {
+                "path": "config/mdview/md-view-obs.html",
+                "icon": "glyphicon-retweet",
+                "keywords": ["observatoire"],
+                "values": {
+                    "fr": "Vue de la fiche de description des observatoires",
+                    "en": "MD view",
+                    "de": "MD view"
+                }
+            }
+        }
     }
 }

@@ -1,0 +1,498 @@
+<!-- <md-view format="map" old-view="vm.data.oldView" lang="vm.data.lang" md="$ctrl.md" ui="vm.data.ui.view"></md-view> -->
+map
+<div class="container">
+    <button class="btn btn-default btn-sm pull-right" ng-click="$ctrl.goBack()">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    </button>
+    <div class="col-md-12">
+        <h2>
+            <span>OBSERVATOIRE - {{$ctrl.md.dataTitle}}</span>
+        </h2>
+    </div>
+
+    <div class="">
+        <div id="page" class="col-md-8">
+
+            <div>
+                Statut: {{$ctrl.md.obs.status}}
+            </div>
+
+            <div class="panel panel-default">
+                <div id="dataAbstract" class="pre panel-body" ng-bind-html="$ctrl.md.dataAbstract | nl2br:true"></div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div>
+                        <div ng-if="$ctrl.md.dataDateCreation">
+                            <strong>{{vm.data.ui.view.date_creation}}:</strong>
+                            <span class="pre">{{$ctrl.md.dataDateCreation | date:'dd/MM/yyyy'}}</span>
+                            <br/>
+                        </div>
+                        <div ng-if="$ctrl.md.dataDatePublication">
+                            <strong>{{vm.data.ui.view.date_publication}}:</strong>
+                            <span class="pre">{{$ctrl.md.dataDatePublication | date:'dd/MM/yyyy'}}</span>
+                            <br/>
+                        </div>
+                        <div ng-if="$ctrl.md.dataDateRevision">
+                            <strong>Date de révision:</strong>
+                            <span class="pre">{{$ctrl.md.dataDateRevision | date:'dd/MM/yyyy'}}</span>
+                            <br/>
+                        </div>
+                        <div ng-if="$ctrl.md.dataTemporalExtents">
+                            <div ng-repeat="dataTemporalExtent in $ctrl.md.dataTemporalExtents track by $index">
+                                <div ng-if="dataTemporalExtent.dataExtentBegin">
+                                    <strong>{{dataTemporalExtent.dataExtentName}}:</strong>
+                                    <span class="pre">{{dataTemporalExtent.dataTemporalExtentBegin | date:'dd/MM/yyyy'}}</span>
+                                    <span class="pre" ng-if="dataTemporalExtent.dataTemporalExtentEnd">
+                                        -
+                                        {{dataTemporalExtent.dataTemporalExtentEnd | date:'dd/MM/yyyy'}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="$ctrl.md.dataMaintenanceFrequency">
+                            <p>
+                                <strong>Fréquence de mise à jour:</strong>
+                                <span class="pre">{{$ctrl.md.dataMaintenanceFrequency | translateCode:'MD_MaintenanceFrequencyCode'}}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div>
+                        <p>
+                            <strong>Langue des données:</strong>
+                        </p>
+                        <ul>
+                            <div ng-if="$ctrl.md.dataLanguages | notEmpty:'checkArray'">
+                                <div ng-repeat="dataLanguage in $ctrl.md.dataLanguages | notEmpty:'array' track by $index">
+                                    <li class="">
+                                        {{dataLanguage | translateCode:'MD_LanguageCode'}}
+                                    </li>
+                                </div>
+                            </div>
+                            <div ng-if="!($ctrl.md.dataLanguages | notEmpty:'checkArray')">
+                                <li class="">Non précisé</li>
+                            </div>
+                        </ul>
+                    </div>
+                    <hr/>
+                    <div>
+                        <p>
+                            <strong>Format de diffusion:</strong>
+                        </p>
+                        <ul>
+                            <div ng-if="$ctrl.md.dataDistributionFormats | notEmpty:'checkArrayObject'">
+                                <div ng-repeat="dataDistributionFormat in $ctrl.md.dataDistributionFormats | notEmpty:'arrayObject' track by $index">
+                                    <li class="">
+                                        {{dataDistributionFormat.formatName}}
+                                        <span ng-if="dataDistributionFormat.formatVersion">
+                                            ({{dataDistributionFormat.formatVersion}})
+                                        </span>
+                                        <span ng-if="dataDistributionFormat.formatSpecification">
+                                            -
+                                            {{dataDistributionFormat.formatSpecification}}
+                                        </span>
+                                    </li>
+                                </div>
+                            </div>
+                            <div ng-if="!($ctrl.md.dataDistributionFormats | notEmpty:'checkArrayObject')">
+                                <li class="">Non précisé</li>
+                            </div>
+                        </ul>
+                    </div>
+                    <hr/>
+                    <div>
+                        <p>
+                            <strong>Qualité des données:</strong>
+                        </p>
+                        <div class="pre">
+                            <div ng-if="$ctrl.md.dataLiStatement" ng-bind-html="$ctrl.md.dataLiStatement | nl2br:true"></div>
+                            <div ng-if="!$ctrl.md.dataLiStatement">
+                                Non précisé
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div>
+                        <p>
+                            <strong>Limite technique d'usage:</strong>
+                        </p>
+                        <ul>
+                            <div ng-if="$ctrl.md.dataUseLimitations | notEmpty:'checkArray'">
+                                <div ng-repeat="dataUseLimitation in $ctrl.md.dataUseLimitations | notEmpty:'array' track by $index">
+                                    <li class="pre">
+                                        {{dataUseLimitation}}
+                                    </li>
+                                </div>
+                            </div>
+                            <div ng-if="!($ctrl.md.dataUseLimitations | notEmpty:'checkArray')">
+                                <li class="">Aucune limite d'usage définie.</li>
+                            </div>
+                        </ul>
+                    </div>
+                    <hr/>
+                    <div>
+                        <p>
+                            <strong>Droits d'accès et d'usage des données:</strong>
+                        </p>
+                        <div ng-if="$ctrl.md.dataSecurityClassification">
+                            <label>Classification:</label> {{$ctrl.md.dataSecurityClassificationValue}}
+                            <br/>
+                        </div>
+                        <label>Contraintes d'accès Inspire:</label>
+                        <br/>
+                        <ul>
+                            <div ng-if="$ctrl.md.dataLegalAccessInspireConstraints | notEmpty:'checkArray'">
+                                <div ng-repeat="dataLegalAccessInspireConstraint in $ctrl.md.dataLegalAccessInspireConstraints | notEmpty:'array' track by $index">
+                                    <li class="pre">
+                                        {{dataLegalAccessInspireConstraint | translateCode:'MD_InspireRestrictionCode'}}
+                                    </li>
+                                </div>
+                            </div>
+                            <div ng-if="!($ctrl.md.dataLegalAccessInspireConstraints | notEmpty:'checkArray')">
+                                <li class="pre">Aucune contrainte d'accès Inspire définie.</li>
+                            </div>
+                        </ul>
+                        <label>Autres contraintes d'accès:</label>
+                        <br/>
+                        <ul>
+                            <div ng-if="$ctrl.md.dataLegalAccessConstraints | notEmpty:'checkArray'">
+                                <div ng-repeat="dataLegalAccessConstraint in $ctrl.md.dataLegalAccessConstraints | notEmpty:'array' track by $index">
+                                    <li class="pre">
+                                        {{dataLegalAccessConstraint | translateCode:'MD_RestrictionCode'}}
+                                    </li>
+                                </div>
+                            </div>
+                            <div ng-if="$ctrl.md.dataLegalAccessOtherConstraints | notEmpty:'checkArray'">
+                                <div ng-repeat="dataLegalAccessOtherConstraint in $ctrl.md.dataLegalAccessOtherConstraints | notEmpty:'array' track by $index">
+                                    <li class="pre" ng-if="dataLegalAccessOtherConstraint">
+                                        {{dataLegalAccessOtherConstraint}}
+                                    </li>
+                                </div>
+                            </div>
+                            <div ng-if="!($ctrl.md.dataLegalAccessConstraints | notEmpty:'checkArray') && !($ctrl.md.dataLegalAccessOtherConstraints | notEmpty:'checkArray')">
+                                <li class="pre">Aucune contrainte d'accès définie.</li>
+                            </div>
+                        </ul>
+                        <label>Contraintes légales d'usage:</label>
+                        <br/>
+                        <ul>
+                            <div ng-if="$ctrl.md.dataLegalUseConstraints | notEmpty:'checkArray'">
+                                <div ng-repeat="dataLegalUseConstraint in $ctrl.md.dataLegalUseConstraints | notEmpty:'array' track by $index">
+                                    <li class="pre">
+                                        {{dataLegalUseConstraint | translateCode:'MD_RestrictionCode'}}
+                                    </li>
+                                </div>
+                            </div>
+                            <div ng-if="$ctrl.md.dataLegalUseLimitations | notEmpty:'checkArray'">
+                                <div ng-repeat="dataLegalUseLimitation in $ctrl.md.dataLegalUseLimitations | notEmpty:'array' track by $index">
+                                    <li class="pre">
+                                        {{dataLegalUseLimitation}}
+                                    </li>
+                                </div>
+                            </div>
+                            <div ng-if="!($ctrl.md.dataLegalUseLimitations | notEmpty:'checkArray') && !($ctrl.md.dataLegalUseConstraints | notEmpty:'checkArray')">
+                                <li class="pre">Aucune limite légale d'usage définie.</li>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div ng-if="$ctrl.md.dataPointOfContacts | notEmpty:'checkArrayObject'">
+                        <div ng-repeat="dataPointOfContact in $ctrl.md.dataPointOfContacts | notEmpty:'arrayObject' track by $index">
+                            <div ng-if="dataPointOfContact.role">
+                                <p>
+                                    <strong>{{dataPointOfContact.role | translateCode:'CI_RoleCode'}}
+                                        des données:</strong>
+                                </p>
+                            </div>
+                            <div ng-if="!dataPointOfContact.role">
+                                <p>
+                                    <strong>Contact pour les données:</strong>
+                                </p>
+                            </div>
+                            <div class="panel panel-default" style="margin-left: 20px;">
+                                <address class="panel-body">
+                                    <div class="col-md-2">
+                                        <div ng-if="dataPointOfContact.logoUrl">
+                                            <img class="logo img-thumbnail" ng-src="{{dataPointOfContact.logoUrl}}" alt="{{data_contact.logoDescription}}" title="{{dataPointOfContact.logoDescription}}"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div ng-if="dataPointOfContact.individualName">
+                                            <div>{{dataPointOfContact.individualName}}</div>
+                                        </div>
+                                        <div ng-if="dataPointOfContact.positionName">
+                                            <div>{{dataPointOfContact.positionName}}</div>
+                                        </div>
+                                        <div ng-if="dataPointOfContact.organisationName">
+                                            <div>
+                                                <strong>{{dataPointOfContact.organisationName}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div ng-if="dataPointOfContact.city">
+                                            <div>
+                                                <span ng-bind-html="dataPointOfContact.deliveryPoint | nl2br:true"></span>
+                                            </br>
+                                            {{dataPointOfContact.postalCode}}
+                                            {{dataPointOfContact.city}}
+                                        </div>
+                                    </div>
+                                    <div ng-if="dataPointOfContact.phoneVoice">
+                                        <!-- <div>Tél.: {{dataPointOfContact.phoneVoices}}</div> -->
+                                        <!-- TODO: spliter les tél. dans une directive -->
+                                        <div>Tél.:
+                                            <span ng-bind-html="dataPointOfContact.phoneVoice | nl2br:true"></span>
+                                        </div>
+                                    </div>
+                                    <div ng-if="dataPointOfContact.email">
+                                        <div>
+                                            <!-- TODO: spliter les emails dans une directive -->
+                                            <strong>Email:
+                                                <span>{{dataPointOfContact.email}}</span>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <!--
+                                        <div ng-if="dataPointOfContact.role">
+                                            <div>Rôle: {{dataPointOfContact.role}}</div>
+                                        </div>
+                                        -->
+                                </div>
+                            </address>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="$ctrl.md.mdContacts | notEmpty:'checkArrayObject'">
+                        <div ng-repeat="mdContact in $ctrl.md.mdContacts | notEmpty:'arrayObject' track by $index">
+                            <div ng-if="mdContact.role">
+                                <p>
+                                    <strong>{{mdContact.role | translateCode:'CI_RoleCode'}}
+                                    de la fiche de métadonnées:</strong>
+                                </p>
+                            </div>
+                            <div ng-if="!mdContact.role">
+                                <p>
+                                    <strong>Contact pour de la fiche de métadonnées:</strong>
+                                </p>
+                            </div>
+                            <div class="panel panel-default" style="margin-left: 20px;">
+                                <address class="panel-body">
+                                <div class="col-md-2">
+                                    <div ng-if="mdContact.logoUrl">
+                                        <img class="logo img-thumbnail" ng-src="{{mdContact.logoUrl}}" alt="{{mdContact.logoDescription}}" title="{{mdContact.logoDescription}}"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div ng-if="mdContact.individualName">
+                                        <div>{{mdContact.individualName}}</div>
+                                    </div>
+                                    <div ng-if="mdContact.positionName">
+                                        <div>{{mdContact.positionName}}</div>
+                                    </div>
+                                    <div ng-if="mdContact.organisationName">
+                                        <div>
+                                            <strong>{{mdContact.organisationName}}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div ng-if="mdContact.city">
+                                        <div>
+                                            <span ng-bind-html="mdContact.deliveryPoint | nl2br:true"></span>
+                                        </br>
+                                        {{mdContact.postalCode}}
+                                        {{mdContact.city}}
+                                    </div>
+                                </div>
+                                <div ng-if="mdContact.phoneVoice">
+                                    <!-- <div>Tél.: {{mdContact.phoneVoices}}</div> -->
+                                    <!-- TODO: spliter les tél. dans une directive -->
+                                    <div>Tél.:
+                                        <span ng-bind-html="mdContact.phoneVoice | nl2br:true"></span>
+                                    </div>
+                                </div>
+                                <div ng-if="mdContact.email">
+                                    <div>
+                                        <!-- TODO: spliter les emails dans une directive -->
+                                        <strong>Email:
+                                            <span>{{mdContact.email}}</span>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <!--
+                                        <div ng-if="mdContact.role">
+                                            <div>Rôle: {{mdContact.role}}</div>
+                                        </div>
+                                        -->
+                            </div>
+                        </address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="browsegraphic" class="col-md-4">
+            <div ng-if="$ctrl.md.dataSpatialRepresentationType">
+                <div id="spatial-representation-type-label" class="label label-success pull-right" title="{{$ctrl.md.dataSpatialRepresentationType | translateCode:'MD_SpatialRepresentationTypeCode'}}">{{$ctrl.md.dataSpatialRepresentationType | translateCode:'MD_SpatialRepresentationTypeCode'}}</div>
+            </div>
+            <div ng-if="$ctrl.md.dataBrowseGraphics">
+                <div ng-show="$ctrl.md.dataBrowseGraphics[0].fileName">
+                    <a href="{{$ctrl.md.dataBrowseGraphics[0].fileName}}" target="_blanck"><img class="img-thumbnail" ng-src="{{$ctrl.md.dataBrowseGraphics[0].fileName}}" alt="{{$ctrl.md.dataBrowseGraphics[0].fileDescription}}" title="{{$ctrl.md.dataBrowseGraphics[0].fileDescription}}"></a>
+                </div>
+            </div>
+        </div>
+        <div id="sidebar" class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p class="">
+                        <span ng-if="$ctrl.md.dataGeographicExtents | notEmpty:'checkArrayObject'">
+                    <span ng-repeat="dataGeographicExtent in $ctrl.md.dataGeographicExtents | notEmpty:'arrayObject' track by $index">
+                        <a class="btn btn-xs btn-info">
+                            <i class="glyphicon glyphicon-screenshot" title="Couverture territoriale"></i>
+                        </a>
+                        <span
+                            class=""
+                            title="S:{{dataGeographicExtent.dataGeographicExtentSouthBound}}, N:{{dataGeographicExtent.dataGeographicExtentNorthBound}}, W:{{dataGeographicExtent.dataGeographicExtentWestBound}}, E:{{dataGeographicExtent.dataGeographicExtentEastBound}}">
+                            <span ng-if="dataGeographicExtent.dataExtentName">
+                                {{dataGeographicExtent.dataExtentName}}
+                                (S:{{dataGeographicExtent.dataGeographicExtentSouthBound}}, N:{{dataGeographicExtent.dataGeographicExtentNorthBound}}, W:{{dataGeographicExtent.dataGeographicExtentWestBound}}, E:{{dataGeographicExtent.dataGeographicExtentEastBound}}),
+                            </span>
+                        <span ng-if="!dataGeographicExtent.dataExtentName">
+                                Nom inconnu (S:{{dataGeographicExtent.dataGeographicExtentSouthBound}}, N:{{dataGeographicExtent.dataGeographicExtentNorthBound}}, W:{{dataGeographicExtent.dataGeographicExtentWestBound}}, E:{{dataGeographicExtent.dataGeographicExtentEastBound}})
+                            </span>
+                        </span>
+                        <br/>
+                        </span>
+                        </span>
+                        <span ng-if="!($ctrl.md.dataGeographicExtents | notEmpty:'checkArrayObject')">
+                    <a class="btn btn-xs btn-info">
+                        <i class="glyphicon glyphicon-screenshot" title="Couverture territoriale"></i>
+                    </a>
+                    <span class="pre" title="S:0.00, N:0.00, W:0.00, E:0.00">Couverture territoriale non précisée</span>
+                        <br/>
+                        </span>
+                    </p>
+                    <p class="">
+                        <a class="btn btn-xs btn-info">
+                            <i class="glyphicon glyphicon-zoom-in" title="Echelle d'utilisation"></i>
+                        </a>
+                        <span ng-if="$ctrl.md.dataScaleDenominator">
+                    1/{{$ctrl.md.dataScaleDenominator}}
+                </span>
+                        <span ng-if="$ctrl.md.dataScaleDistance">
+                    {{$ctrl.md.dataScaleDistance}}
+                    mètre(s)
+                </span>
+                        <span ng-if="!$ctrl.md.dataScaleDenominator && !$ctrl.md.dataScaleDistance">
+                    Echelle et résolution non précisée.
+                </span>
+                    </p>
+                    <p class="">
+                        <span ng-if="$ctrl.md.dataReferenceSystems | notEmpty:'checkArrayObject'">
+                    <span ng-repeat="dataReferenceSystem in $ctrl.md.dataReferenceSystems | notEmpty:'arrayObject' track by $index">
+                        <a class="btn btn-xs btn-info">
+                            <i class="glyphicon glyphicon-globe" title="Système de projection"></i>
+                        </a>
+                        {{dataReferenceSystem.code | translateCode:'MD_ReferenceSystemCode'}}
+                        <span ng-if="dataReferenceSystem.codespace">
+                            ({{dataReferenceSystem.codespace}})
+                        </span>
+                        <br/>
+                        </span>
+                        </span>
+                        <span ng-if="!($ctrl.md.dataReferenceSystems | notEmpty:'checkArrayObject')">
+                    <a class="btn btn-xs btn-info">
+                        <i class="glyphicon glyphicon-globe" title="Système de projection"></i>
+                    </a>
+                    Aucun système de projection défini.
+                </span>
+                    </p>
+
+                    <hr/>
+                    <div id="keywords" class="">
+                        <span ng-if="$ctrl.md.dataTopicCategories | notEmpty:'checkArray'">
+                    <span ng-repeat="dataTopicCategory in $ctrl.md.dataTopicCategories | notEmpty:'array' track by $index">
+                        <span title="{{dataTopicCategory}}" class="label label-warning">{{dataTopicCategory | translateCode:'MD_TopicCategoryCode'}}</span>
+                        </span>
+                        </span>
+                        <span ng-if="$ctrl.md.dataInspireKeywords | notEmpty:'checkArray'">
+                    <span ng-repeat="dataInspireKeyword in $ctrl.md.dataInspireKeywords | notEmpty:'array' track by $index">
+                        <span title="{{dataInspireKeyword}}" class="label label-primary">{{dataInspireKeyword | translateCode:'MD_InspireTopicCategoryCode'}}</span>
+                        </span>
+                        </span>
+                        <span ng-if="$ctrl.md.dataKeywords | notEmpty:'checkArrayObject'">
+                    <span ng-repeat="dataKeywords in $ctrl.md.dataKeywords | notEmpty:'arrayObject' track by $index">
+                        <span ng-repeat="keyword in dataKeywords.keywords | string2array">
+                            <span title="{{dataKeywords.keywordType}} - {{dataKeywords.thesaurusName}}" class="label label-primary">{{keyword}}</span>
+                        </span>
+                        </span>
+                    </div>
+                    <hr/>
+                    <div class="">
+                        <strong>Ressources associés:</strong>
+                        <ul>
+                            <span ng-if="$ctrl.md.dataLinkages | notEmpty:'checkArrayObject'">
+                            <span ng-repeat="dataLinkage in $ctrl.md.dataLinkages | notEmpty:'arrayObject' track by $index">
+                                <li>
+                                    <span ng-if="dataLinkage | isWxs">
+                                        <a ng-href="{{dataLinkage | getCapabilities}}" target="_blanck" title="{{dataLinkage | getCapabilities}}">{{dataLinkage.description}}</a>
+                                        <br />
+                                        <span ng-if="dataLinkage | isWxs:wfs">
+                                            <!-- <span ng-repeat="wfs_url in dataLinkage.wfs_url track by $index">
+                                                <a title="Télécharger les données en {{ wfs_url.format }}" class="label label-info" ng-href="{{wfs_url.url}}" target="_blank">{{wfs_url.format}}</a>
+                                            </span> -->
+                            <span wfs-download linkage="dataLinkage"></span>
+                            </span>
+                            </span>
+                            <span ng-if="!(dataLinkage | isWxs)">
+                                        <a ng-href="{{dataLinkage.url}}" target="_blanck" title="{{dataLinkage.url}}">{{dataLinkage.description}}</a>
+                                    </span>
+                            </li>
+                            </span>
+                            </span>
+                            <span ng-if="!($ctrl.md.dataLinkages | notEmpty:'checkArrayObject')">
+                            <li>Aucune ressource liée disponible.</li>
+                        </span>
+                        </ul>
+                    </div>
+                    <!--
+                    <hr />
+                    <div class="text-center">
+                        <span ng-if="$ctrl.md.csw_url">
+                            <a href="{{$ctrl.md.csw_url}}" target="_blank" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-download-alt"></i> Télécharger la fiche (XML)</a>
+                        </span>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div id="modal-footer" class="">
+            <small>
+            <span class="pull-left">
+                <span class="glyphicon glyphicon-globe"></span>
+                {{vm.data.config.app.name}}
+                {{vm.data.config.app.version}}
+                -
+                {{vm.data.config.app.copyrights}}
+            </span>
+            <span class="pull-right">
+                <em class="text-info">Fiche
+                    {{$ctrl.md.mdFileIdentifier}}
+                    ({{$ctrl.md.mdLanguageValue}}) mise à jour le:
+                    {{$ctrl.md.mdDateStamp | date:'dd/MM/yyyy'}}</em>
+            </span>
+        </small>
+        </div>
+    </div>
+</div>

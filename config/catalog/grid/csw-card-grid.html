@@ -1,0 +1,15 @@
+<a style="color:#444444; font-size:1.1em; height:5.7em; display:block;" ng-click="$ctrl.viewMd($ctrl.md.mdFileIdentifier)">
+    <span popover-trigger="'mouseenter'" uib-popover-template="'config/catalog/grid/csw-card-popover.html'" popover-placement="bottom">
+        <strong>{{$ctrl.md.dataShortTitle}}</strong>
+    </span>
+    <div class="thumbnail">
+        <div class="image" style="height:200px;">
+            <img class="img-rounded img-responsive" ng-src="{{$ctrl.md.dataBrowseGraphics.dataBrowseGraphicName}}" alt="{{$ctrl.md.dataBrowseGraphics.dataBrowseGraphicDescription}}" />
+        </div>
+        <div class="labels caption pull-right">
+            <span title="{{$ctrl.lang.kw_od}}" class="label label-success pull-right" ng-if="$ctrl.md.dataOD != ''">{{$ctrl.lang.kw_od}}</span>
+            <span title="{{$ctrl.lang.kw_wfs}}" class="label label-warning pull-right" ng-if="$ctrl.md.dataWFS != ''">{{$ctrl.lang.kw_wfs}}</span>
+            <span title="{{$ctrl.lang.kw_wms}}" class="label label-primary pull-right" ng-if="$ctrl.md.dataWMS != ''">{{$ctrl.lang.kw_wms}}</span>
+        </div>
+    </div>
+</a>

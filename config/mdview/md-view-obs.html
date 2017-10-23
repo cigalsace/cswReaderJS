@@ -1,0 +1,522 @@
+<!-- <md-view format="obs" old-view="vm.data.oldView" lang="vm.data.lang" md="$ctrl.md" ui="vm.data.ui.view"></md-view> -->
+<div class="container">
+    <button class="btn btn-default btn-sm pull-right" ng-click="$ctrl.goBack()">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    </button>
+    <div class="col-md-12">
+        <h2>
+            <span>{{$ctrl.md.dataTitle}}</span>
+        </h2>
+    </div>
+
+    <div>
+        <div id="page" class="col-md-8">
+
+            <h3>Description de l'observatoire</h3>
+            <div class="panel panel-default">
+                <div class="pre panel-body">
+                    <h4>Objectifs et enjeux:</h4>
+                    <div ng-bind-html="$ctrl.md.obs.objectives | nl2br:true"></div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="pre panel-body">
+                    <h4>Données et indicateurs:</h4>
+                    <div ng-bind-html="($ctrl.md.obs.data === '' ? 'Non renseigné' : $ctrl.md.obs.data) | nl2br:true"></div>
+                    <h4>Sources:</h4>
+                    <div ng-bind-html="$ctrl.md.obs.sources | nl2br:true"></div>
+                    <h4>Fréquence de mise à jour:</h4>
+                    <div ng-bind-html="$ctrl.md.obs.updateFrequency | nl2br:true"></div>
+                    <h4>Etudes et publications:</h4>
+                    <div ng-bind-html="$ctrl.md.obs.publicationFormat | nl2br:true"></div>
+                    <div ng-bind-html="$ctrl.md.obs.publicationRessources | nl2br:true"></div>
+                </div>
+            </div>
+
+            <!-- <div class="panel panel-default">
+                <div class="pre panel-body">
+                    <h4>Statut:</h4>
+                    <div ng-bind-html="$ctrl.md.obs.status | nl2br:true"></div>
+                    <h4>Calendrier de mis en oeuvre:</h4>
+                    <div ng-bind-html="$ctrl.md.obs.calendar | nl2br:true"></div>
+                    <h4>Niveau d'utilisation:</h4>
+                    <div ng-bind-html="$ctrl.md.obs.useLevel | nl2br:true"></div>
+                </div>
+            </div> -->
+
+            <h3>Moyens</h3>
+            <div class="panel panel-default">
+                <div class="pre panel-body">
+                    <h4>Budget dédié à l'observatoire:</h4>
+                    <div ng-bind-html="$ctrl.md.obs.budget | nl2br:true"></div>
+                </div>
+                <div class="pre panel-body">
+                    <h4>Effectifs dédiés à l'observatoire:</h4>
+                    <div ng-bind-html="$ctrl.md.obs.effectifs | nl2br:true"></div>
+                </div>
+                <div class="pre panel-body">
+                    <h4>Contribution de la Région:</h4>
+                    <div ng-bind-html="$ctrl.md.obs.contrib_region | nl2br:true"></div>
+                </div>
+            </div>
+
+            <h3>Coordonnées de l'oservatoire</h3>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row" ng-if="$ctrl.md.dataPointOfContacts | notEmpty:'checkArrayObject'">
+                        <div class="col-md-12">
+                            <p>
+                                <strong>Structure pilote:</strong>
+                            </p>
+                            <div ng-repeat="dataPointOfContact in $ctrl.md.dataPointOfContacts | notEmpty:'arrayObject' | filter:'Pilote' track by $index">
+                                <div ng-if="dataPointOfContact.positionName.toLowerCase().indexOf('pilote') > -1">
+                                    <!-- <div class="panel panel-default" style="margin-left: 20px;"> -->
+                                    <!-- <address class="panel-body"> -->
+                                    <div class="col-md-2">
+                                        <div ng-if="dataPointOfContact.logoUrl">
+                                            <img class="logo img-thumbnail" ng-src="{{dataPointOfContact.logoUrl}}" alt="{{data_contact.logoDescription}}" title="{{dataPointOfContact.logoDescription}}"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <!-- <div ng-if="dataPointOfContact.individualName">
+                                            <div>{{dataPointOfContact.individualName}}</div>
+                                        </div>
+                                        <div ng-if="dataPointOfContact.positionName">
+                                            <div>{{dataPointOfContact.positionName}}</div>
+                                        </div> -->
+                                        <div ng-if="dataPointOfContact.organisationName">
+                                            <div>
+                                                <strong>{{dataPointOfContact.organisationName}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <!-- <div ng-if="dataPointOfContact.city"> -->
+                                        <div>
+                                            <span ng-bind-html="dataPointOfContact.deliveryPoints | array2string:'<br />'"></span>
+                                            </br>
+                                            {{dataPointOfContact.postalCode}} {{dataPointOfContact.city}}
+                                        </div>
+                                        <!-- </div> -->
+                                        <div ng-if="dataPointOfContact.phoneVoices">
+                                            <!-- <div>Tél.: {{dataPointOfContact.phoneVoices}}</div> -->
+                                            <!-- TODO: spliter les tél. dans une directive -->
+                                            <div>Tél.:
+                                                <span ng-bind-html="dataPointOfContact.phoneVoices | array2string:' / '"></span>
+                                            </div>
+                                        </div>
+                                        <div ng-if="dataPointOfContact.emails">
+                                            <div>
+                                                <!-- TODO: spliter les emails dans une directive -->
+                                                <strong>Emails:
+                                                    <span>{{dataPointOfContact.emails | array2string:' / '}}</span>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <!--
+                                        <div ng-if="dataPointOfContact.role">
+                                            <div>Rôle: {{dataPointOfContact.role}}</div>
+                                        </div>
+                                        -->
+                                    </div>
+                                    <!-- </address> -->
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <strong>Président:</strong> {{$ctrl.md.obs.president}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <strong>Directeur:</strong> {{$ctrl.md.obs.director}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <strong>Partenaires:</strong> {{$ctrl.md.obs.partners}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div ng-if="$ctrl.md.dataPointOfContacts | notEmpty:'checkArrayObject'">
+                        <p>
+                            <strong>Référents de l'observatoire:</strong>
+                        </p>
+                        <div ng-repeat="dataPointOfContact in $ctrl.md.dataPointOfContacts | notEmpty:'arrayObject' track by $index">
+                            <div ng-if="dataPointOfContact.positionName.toLowerCase().indexOf('ref_obs') != -1">
+                                <div class="panel panel-default" style="margin-left: 20px;">
+                                    <address class="panel-body">
+                                        <div class="col-md-2">
+                                            <div ng-if="dataPointOfContact.logoUrl">
+                                                <img class="logo img-thumbnail" ng-src="{{dataPointOfContact.logoUrl}}" alt="{{data_contact.logoDescription}}" title="{{dataPointOfContact.logoDescription}}"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div ng-if="dataPointOfContact.individualName">
+                                                <div>{{dataPointOfContact.individualName}}</div>
+                                            </div>
+                                            <div ng-if="dataPointOfContact.positionName">
+                                                <div>{{dataPointOfContact.positionName}}</div>
+                                            </div>
+                                            <div ng-if="dataPointOfContact.organisationName">
+                                                <div>
+                                                    <strong>{{dataPointOfContact.organisationName}}</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div ng-if="dataPointOfContact.city">
+                                                <div>
+                                                    <span ng-bind-html="dataPointOfContact.deliveryPoints | array2string:'<br />'"></span>
+                                                    </br>
+                                                    {{dataPointOfContact.postalCode}} {{dataPointOfContact.city}}
+                                                </div>
+                                            </div>
+                                            <div ng-if="dataPointOfContact.phoneVoices">
+                                                <!-- <div>Tél.: {{dataPointOfContact.phoneVoices}}</div> -->
+                                                <!-- TODO: spliter les tél. dans une directive -->
+                                                <div>Tél.:
+                                                    <span ng-bind-html="dataPointOfContact.phoneVoices | array2string:' / '"></span>
+                                                </div>
+                                            </div>
+                                            <div ng-if="dataPointOfContact.emails">
+                                                <div>
+                                                    <!-- TODO: spliter les emails dans une directive -->
+                                                    <strong>Email:
+                                                        <span>{{dataPointOfContact.emails | array2string:' / '}}</span>
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                            <!--
+                                        <div ng-if="dataPointOfContact.role">
+                                            <div>Rôle: {{dataPointOfContact.role}}</div>
+                                        </div>
+                                        -->
+                                        </div>
+                                    </address>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div ng-if="$ctrl.md.dataPointOfContacts | notEmpty:'checkArrayObject'">
+                            <p>
+                                <strong>Référent thématique (Région):</strong>
+                            </p>
+                            <div ng-repeat="dataPointOfContact in $ctrl.md.dataPointOfContacts | notEmpty:'arrayObject' track by $index">
+                                <div ng-if="dataPointOfContact.positionName.toLowerCase().indexOf('ref_thematique') != -1">
+                                    <div class="panel panel-default" style="margin-left: 20px;">
+                                        <address class="panel-body">
+                                            <div class="col-md-2">
+                                                <div ng-if="dataPointOfContact.logoUrl">
+                                                    <img class="logo img-thumbnail" ng-src="{{dataPointOfContact.logoUrl}}" alt="{{data_contact.logoDescription}}" title="{{dataPointOfContact.logoDescription}}"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div ng-if="dataPointOfContact.individualName">
+                                                    <div>{{dataPointOfContact.individualName}}</div>
+                                                </div>
+                                                <div ng-if="dataPointOfContact.positionName">
+                                                    <div>{{dataPointOfContact.positionName}}</div>
+                                                </div>
+                                                <div ng-if="dataPointOfContact.organisationName">
+                                                    <div>
+                                                        <strong>{{dataPointOfContact.organisationName}}</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div ng-if="dataPointOfContact.city">
+                                                    <div>
+                                                        <span ng-bind-html="dataPointOfContact.deliveryPoints | array2string:'<br />'"></span>
+                                                        </br>
+                                                        {{dataPointOfContact.postalCode}} {{dataPointOfContact.city}}
+                                                    </div>
+                                                </div>
+                                                <div ng-if="dataPointOfContact.phoneVoices">
+                                                    <!-- <div>Tél.: {{dataPointOfContact.phoneVoices}}</div> -->
+                                                    <!-- TODO: spliter les tél. dans une directive -->
+                                                    <div>Tél.:
+                                                        <span ng-bind-html="dataPointOfContact.phoneVoices | array2string:' / '"></span>
+                                                    </div>
+                                                </div>
+                                                <div ng-if="dataPointOfContact.email">
+                                                    <div>
+                                                        <!-- TODO: spliter les emails dans une directive -->
+                                                        <strong>Emails:
+                                                            <span>{{dataPointOfContact.emails | array2string:' / '}}</span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                                <!--
+                                            <div ng-if="dataPointOfContact.role">
+                                                <div>Rôle: {{dataPointOfContact.role}}</div>
+                                            </div>
+                                            -->
+                                            </div>
+                                        </address>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div ng-if="$ctrl.md.mdContacts | notEmpty:'checkArrayObject'">
+                        <div ng-repeat="mdContact in $ctrl.md.mdContacts | notEmpty:'arrayObject' track by $index">
+                            <div ng-if="mdContact.role">
+                                <p>
+                                    <strong>{{mdContact.role | translateCode:'CI_RoleCode'}} de la fiche:</strong>
+                                </p>
+                            </div>
+                            <div ng-if="!mdContact.role">
+                                <p>
+                                    <strong>Gestionnaire de la fiche:</strong>
+                                </p>
+                            </div>
+                            <div class="panel panel-default" style="margin-left: 20px;">
+                                <address class="panel-body">
+                                    <div class="col-md-2">
+                                        <div ng-if="mdContact.logoUrl">
+                                            <img class="logo img-thumbnail" ng-src="{{mdContact.logoUrl}}" alt="{{mdContact.logoDescription}}" title="{{mdContact.logoDescription}}"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div ng-if="mdContact.individualName">
+                                            <div>{{mdContact.individualName}}</div>
+                                        </div>
+                                        <div ng-if="mdContact.positionName">
+                                            <div>{{mdContact.positionName}}</div>
+                                        </div>
+                                        <div ng-if="mdContact.organisationName">
+                                            <div>
+                                                <strong>{{mdContact.organisationName}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div ng-if="mdContact.city">
+                                            <div>
+                                                <span ng-bind-html="mdContact.deliveryPoints | array2string:'<br />'"></span>
+                                                </br>
+                                                {{mdContact.postalCode}} {{mdContact.city}}
+                                            </div>
+                                        </div>
+                                        <div ng-if="mdContact.phoneVoices">
+                                            <!-- <div>Tél.: {{mdContact.phoneVoices}}</div> -->
+                                            <!-- TODO: spliter les tél. dans une directive -->
+                                            <div>Tél.:
+                                                <span ng-bind-html="mdContact.phoneVoices | array2string:' / '"></span>
+                                            </div>
+                                        </div>
+                                        <div ng-if="mdContact.emails">
+                                            <div>
+                                                <!-- TODO: spliter les emails dans une directive -->
+                                                <strong>Email:
+                                                    <span>{{mdContact.emails | array2string:' / '}}</span>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <!--
+                                        <div ng-if="mdContact.role">
+                                            <div>Rôle: {{mdContact.role}}</div>
+                                        </div>
+                                        -->
+                                    </div>
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="browsegraphic" class="col-md-4">
+            <div ng-if="$ctrl.md.dataSpatialRepresentationType">
+                <div id="spatial-representation-type-label" class="label label-success pull-right" title="{{$ctrl.md.dataSpatialRepresentationType | translateCode:'MD_SpatialRepresentationTypeCode'}}">{{$ctrl.md.dataSpatialRepresentationType | translateCode:'MD_SpatialRepresentationTypeCode'}}</div>
+            </div>
+            <div ng-if="$ctrl.md.dataBrowseGraphics">
+                <div ng-show="$ctrl.md.dataBrowseGraphics[0].fileName">
+                    <a href="{{$ctrl.md.dataBrowseGraphics[0].fileName}}" target="_blanck">
+                        <img class="img-thumbnail" ng-src="{{$ctrl.md.dataBrowseGraphics[0].fileName}}" alt="{{$ctrl.md.dataBrowseGraphics[0].fileDescription}}"
+                            title="{{$ctrl.md.dataBrowseGraphics[0].fileDescription}}">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="sidebar" class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p>
+                        <strong>Statut:</strong> {{$ctrl.md.obs.status}}</p>
+                    <p>
+                        <strong>Calendrier:</strong> {{$ctrl.md.obs.calendar}}</p>
+                    <p>
+                        <strong>Niveau d'utilisation:</strong> {{$ctrl.md.obs.useLevel}}</p>
+                    <p>
+                        <span ng-if="$ctrl.md.dataGeographicExtents | notEmpty:'checkArrayObject'">
+                            <span ng-repeat="dataGeographicExtent in $ctrl.md.dataGeographicExtents | notEmpty:'arrayObject' track by $index">
+                                <strong>Emprise:</strong> {{dataGeographicExtent.dataExtentName}}
+                            </span>
+                        </span>
+                    </p>
+
+
+                    <!-- <p>
+                        <span ng-if="$ctrl.md.dataGeographicExtents | notEmpty:'checkArrayObject'">
+                            <span ng-repeat="dataGeographicExtent in $ctrl.md.dataGeographicExtents | notEmpty:'arrayObject' track by $index">
+                                <a class="btn btn-xs btn-info">
+                                    <i class="glyphicon glyphicon-screenshot" title="Couverture territoriale"></i>
+                                </a>
+                                <span
+
+                                    title="S:{{dataGeographicExtent.dataGeographicExtentSouthBound}}, N:{{dataGeographicExtent.dataGeographicExtentNorthBound}}, W:{{dataGeographicExtent.dataGeographicExtentWestBound}}, E:{{dataGeographicExtent.dataGeographicExtentEastBound}}">
+                                    <span ng-if="dataGeographicExtent.dataExtentName">
+                                        {{dataGeographicExtent.dataExtentName}}
+                                        (S:{{dataGeographicExtent.dataGeographicExtentSouthBound}}, N:{{dataGeographicExtent.dataGeographicExtentNorthBound}}, W:{{dataGeographicExtent.dataGeographicExtentWestBound}}, E:{{dataGeographicExtent.dataGeographicExtentEastBound}}),
+                                    </span>
+                                    <span ng-if="!dataGeographicExtent.dataExtentName">
+                                        Couverture territoriale non précisée
+                                        (S:{{dataGeographicExtent.dataGeographicExtentSouthBound}}, N:{{dataGeographicExtent.dataGeographicExtentNorthBound}}, W:{{dataGeographicExtent.dataGeographicExtentWestBound}}, E:{{dataGeographicExtent.dataGeographicExtentEastBound}})
+                                    </span>
+                                </span>
+                                <br/>
+                            </span>
+                        </span>
+                        <span ng-if="!($ctrl.md.dataGeographicExtents | notEmpty:'checkArrayObject')">
+                            <a class="btn btn-xs btn-info">
+                                <i class="glyphicon glyphicon-screenshot" title="Couverture territoriale"></i>
+                            </a>
+                            <span class="pre" title="S:0.00, N:0.00, W:0.00, E:0.00">Couverture territoriale non précisée</span>
+                            <br/>
+                        </span>
+                    </p> -->
+                    <!-- <p>
+                        <a class="btn btn-xs btn-info">
+                            <i class="glyphicon glyphicon-zoom-in" title="Echelle d'utilisation"></i>
+                        </a>
+                        <span ng-if="$ctrl.md.dataScaleDenominator">
+                    1/{{$ctrl.md.dataScaleDenominator}}
+                </span>
+                        <span ng-if="$ctrl.md.dataScaleDistance">
+                    {{$ctrl.md.dataScaleDistance}}
+                    mètre(s)
+                </span>
+                        <span ng-if="!$ctrl.md.dataScaleDenominator && !$ctrl.md.dataScaleDistance">
+                    Echelle et résolution non précisée.
+                </span>
+                    </p> -->
+                    <!-- <p>
+                        <span ng-if="$ctrl.md.dataReferenceSystems | notEmpty:'checkArrayObject'">
+                    <span ng-repeat="dataReferenceSystem in $ctrl.md.dataReferenceSystems | notEmpty:'arrayObject' track by $index">
+                        <a class="btn btn-xs btn-info">
+                            <i class="glyphicon glyphicon-globe" title="Système de projection"></i>
+                        </a>
+                        {{dataReferenceSystem.code | translateCode:'MD_ReferenceSystemCode'}}
+                        <span ng-if="dataReferenceSystem.codespace">
+                            ({{dataReferenceSystem.codespace}})
+                        </span>
+                        <br/>
+                        </span>
+                        </span>
+                        <span ng-if="!($ctrl.md.dataReferenceSystems | notEmpty:'checkArrayObject')">
+                    <a class="btn btn-xs btn-info">
+                        <i class="glyphicon glyphicon-globe" title="Système de projection"></i>
+                    </a>
+                    Aucun système de projection défini.
+                </span>
+                    </p> -->
+
+                    <hr/>
+                    <div id="keywords">
+                        <span ng-if="$ctrl.md.dataTopicCategories | notEmpty:'checkArray'">
+                            <span ng-repeat="dataTopicCategory in $ctrl.md.dataTopicCategories | notEmpty:'array' track by $index">
+                                <span title="{{dataTopicCategory}}" class="label label-warning">{{dataTopicCategory | translateCode:'MD_TopicCategoryCode'}}</span>
+                            </span>
+                        </span>
+                        <span ng-if="$ctrl.md.dataKeywords | notEmpty:'checkArrayObject'">
+                            <span ng-repeat="dataKeywords in $ctrl.md.dataKeywords | notEmpty:'arrayObject' track by $index">
+                                <span ng-repeat="keyword in dataKeywords.keywords | string2array">
+                                    <span title="{{dataKeywords.keywordType}} - {{dataKeywords.thesaurusName}}" class="label" ng-class="{'label-primary': dataKeywords.thesaurusName, 'label-info': !dataKeywords.thesaurusName}">{{keyword}}</span>
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+                    <hr/>
+                    <div>
+                        <strong>Sites internet et ressources associées:</strong>
+                        <ul>
+                            <span ng-if="$ctrl.md.dataLinkages | notEmpty:'checkArrayObject'">
+                                <span ng-repeat="dataLinkage in $ctrl.md.dataLinkages | notEmpty:'arrayObject' track by $index">
+                                    <li>
+                                        <span ng-if="dataLinkage | isWxs">
+                                            <a ng-href="{{dataLinkage | getCapabilities}}" target="_blanck" title="{{dataLinkage | getCapabilities}}">{{dataLinkage.description}}</a>
+                                            <br />
+                                            <span ng-if="dataLinkage | isWxs:wfs">
+                                                <!-- <span ng-repeat="wfs_url in dataLinkage.wfs_url track by $index">
+                                                <a title="Télécharger les données en {{ wfs_url.format }}" class="label label-info" ng-href="{{wfs_url.url}}" target="_blank">{{wfs_url.format}}</a>
+                                            </span> -->
+                                                <span wfs-download linkage="dataLinkage"></span>
+                                            </span>
+                                        </span>
+                                        <span ng-if="!(dataLinkage | isWxs)">
+                                            <span ng-if="dataLinkage.url">
+                                                <a ng-href="{{dataLinkage.url}}" target="_blanck" title="{{dataLinkage.url}}">{{dataLinkage.description}}</a>
+                                            </span>
+                                            <span ng-if="!(dataLinkage.url)">
+                                                {{dataLinkage.description}}
+                                            </span>
+                                        </span>
+                                    </li>
+                                </span>
+                            </span>
+                            <span ng-if="!($ctrl.md.dataLinkages | notEmpty:'checkArrayObject')">
+                                <li>Aucune ressource liée disponible.</li>
+                            </span>
+                        </ul>
+                    </div>
+                    <!--
+                    <hr />
+                    <div class="text-center">
+                        <span ng-if="$ctrl.md.csw_url">
+                            <a href="{{$ctrl.md.csw_url}}" target="_blank" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-download-alt"></i> Télécharger la fiche (XML)</a>
+                        </span>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div id="modal-footer">
+            <small>
+                <span class="pull-left">
+                    <span class="glyphicon glyphicon-globe"></span>
+                    {{$ctrl.app.name}} {{$ctrl.app.version}} - {{$ctrl.app.copyrights}}
+                </span>
+                <span class="pull-right">
+                    <em class="text-info">Fiche {{$ctrl.md.mdFileIdentifier}} ({{$ctrl.md.mdLanguage}}) mise à jour le: {{$ctrl.md.mdDateStamp.date}}</em>
+                </span>
+            </small>
+        </div>
+    </div>
+</div>

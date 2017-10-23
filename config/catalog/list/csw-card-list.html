@@ -1,0 +1,23 @@
+<div class="thumbnail col-lg-2 col-md-3 col-sm-4 col-xs-2">
+    <img class="img-rounded img-responsive" height="" ng-src="{{$ctrl.md.dataBrowseGraphics.dataBrowseGraphicName}}" alt="{{$ctrl.md.dataBrowseGraphics.dataBrowseGraphicDescription}}">
+</div>
+<div class="col-lg-10 col-md-9 col-sm-8 col-xs-10">
+    <h4 class="">
+        <strong>
+            <a ng-if="$ctrl.md.mdURL != ''" href="#" ng-click="$ctrl.viewMd($ctrl.md.mdFileIdentifier)">
+                {{$ctrl.md.dataTitle}}
+            </a>
+        </strong>
+    </h4>
+    <p>{{$ctrl.md.dataAbstract}}</p>
+    <div class="labels pull-left">
+        <div class="label label-warning" ng-repeat="topic in $ctrl.md.dataTopicCategories track by $index">{{topic}}</div>
+        <div class="label label-info" ng-repeat="keyword in $ctrl.md.dataKeywords track by $index">{{keyword}}</div>
+    </div>
+    <div class="labels pull-right">
+        <span title="{{$ctrl.lang.kw_od}}" class="label label-success" ng-if="$ctrl.md.dataOD != ''">{{$ctrl.lang.kw_od}}</span>
+        <span title="{{$ctrl.lang.kw_wfs}}" class="label label-warning" ng-if="$ctrl.md.dataWFS != ''">{{$ctrl.lang.kw_wfs}}</span>
+        <span title="{{$ctrl.lang.kw_wms}}" class="label label-primary" ng-if="$ctrl.md.dataWMS != ''">{{$ctrl.lang.kw_wms}}</span>
+    </div>
+</div>
+<hr/>

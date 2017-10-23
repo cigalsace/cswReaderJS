@@ -1,0 +1,27 @@
+<div id="content" class="container-fluid">
+    <strong> PAGE D'ACCUEIL</strong>
+
+    <div>
+        Décrire ici à quoi sert l'application...
+        <br />
+        <br />
+
+        <div ng-repeat="csw in $ctrl.csw_list track by $index">
+            <a ng-click="$ctrl.goToUrl('catalog', {csw: csw.url})">
+                {{csw.title}}
+            </a>
+        </div>
+
+        <!-- --{{$ctrl.csw_list}}-- -->
+        <br />
+        <br />
+        <a role="button" ng-click="$ctrl.goToUrl('catalog', {})">
+            Go to catalog
+            <span class="glyphicon glyphicon-arrow-right">
+                <span class="visible-xs-inline">
+                    >>
+                </span>
+            </span>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+<div>
+    <app-header config="$ctrl.config"></app-header>
+    <div>
+        <div ui-view></div>
+    </div>
+    <app-footer config="$ctrl.config" on-change-lang="$ctrl.changeLocale(lang)"></app-footer>
+</div>

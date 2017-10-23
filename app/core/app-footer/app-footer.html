@@ -1,0 +1,22 @@
+<footer id="footer" ng-show="$ctrl.config.app.footer">
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid">
+            <div class="navbar-text navbar-left">
+                <a ng-href="{{$ctrl.config.app.copyrights_url}}" class="navbar-link">{{$ctrl.config.app.copyrights}}</a>
+                <a ng-href="{{$ctrl.config.catalog.csw.capabilities.url}}" target="_blank" class="navbar-link" popover-trigger="'mouseenter'" uib-popover-template="'config/catalog/popover-csw-url.html'" popover-placement="top" popover-popup-close-delay="2000" popover-title="CSW GetCapabilities information">- {{$ctrl.locale.app.ui.csw_url}}</a>
+            </div>
+            <div ng-hide="$ctrl.loading.value === 0" id="alert" class="navbar-text navbar-left" role="alert">
+                <uib-progressbar class="progress-striped active" value="1 / $ctrl.loading * 100" type="info">{{$ctrl.locale.app.ui.loading}}</uib-progressbar>
+            </div>
+            <div class="navbar-text navbar-right">
+                <!-- </csw-navigation> -->
+                <span ng-hide="$ctrl.params.module != 'catalog'">
+                    {{$ctrl.config.catalog.csw.nb_records_visible}} / {{$ctrl.config.catalog.csw.nb_records_matched}} -
+                </span>
+                <modal-doc-button format="text" text="{{$ctrl.locale.app.ui.bt_mentions}}" title="Mentions" content-url="$ctrl.locale.pages['mentions']">
+                </modal-doc-button> -
+                <change-lang lang="$ctrl.params.lang" tooltip="$ctrl.locale.app.ui.tooltip_changelang" locales="$ctrl.config.app.locales" on-change="$ctrl.changeLocale(lang)"></change-lang>
+            </div>
+        </div>
+    </nav>
+</footer>
